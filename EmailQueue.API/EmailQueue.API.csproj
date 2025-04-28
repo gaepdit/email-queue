@@ -20,10 +20,30 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="../README.md" />
         <Content Update="appsettings.Development.json">
             <DependentUpon>appsettings.json</DependentUpon>
+            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </Content>
+        <None Update="Properties\PublishProfiles\*.pubxml">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <MsDeploySkipRules Include="SkipAppSettings">
+            <ObjectName>filePath</ObjectName>
+            <AbsolutePath>appsettings.*.json</AbsolutePath>
+        </MsDeploySkipRules>
+        <MsDeploySkipRules Include="SkipWebConfig">
+            <ObjectName>filePath</ObjectName>
+            <AbsolutePath>web.config</AbsolutePath>
+        </MsDeploySkipRules>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="../README.md" />
     </ItemGroup>
 
 </Project>
