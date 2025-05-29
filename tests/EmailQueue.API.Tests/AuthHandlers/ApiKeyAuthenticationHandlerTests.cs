@@ -19,7 +19,7 @@ public class ApiKeyAuthenticationHandlerTests
 
     private readonly ApiClient _testKey = new()
     {
-        Client = "Test Client",
+        ClientName = "Test Client",
         ClientId = Guid.NewGuid(),
         ApiKey = ValidApiKey,
     };
@@ -167,7 +167,7 @@ public class ApiKeyAuthenticationHandlerTests
         var identity = result.Principal?.Identity as ClaimsIdentity;
         identity.Should().NotBeNull();
         Debug.Assert(identity != null);
-        identity.Claims.Should().Contain(c => c.Type == nameof(ApiClient.Client) && c.Value == _testKey.Client);
+        identity.Claims.Should().Contain(c => c.Type == nameof(ApiClient.ClientName) && c.Value == _testKey.ClientName);
         identity.Claims.Should()
             .Contain(c => c.Type == nameof(ApiClient.ClientId) && c.Value == _testKey.ClientId.ToString());
     }

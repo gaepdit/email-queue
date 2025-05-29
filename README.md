@@ -26,13 +26,15 @@ Configure the delay in seconds between processing each email.
 ### Security
 
 All API endpoints require authentication using a Client ID passed in the `X-Client-ID` header and an API Key passed in
-the `X-API-Key` header with each request. Valid API clients are configured in `appsettings.json`:
+the `X-API-Key` header with each request. 
+
+Valid API clients are configured in `appsettings.json`:
 
 ```json
 {
   "ApiClients": [
     {
-      "Client": "Your Web Application",
+      "ClientName": "Your Web Application",
       "ClientId": "your-guid",
       "ApiKey": "your-secret-api-key-1"
     }
@@ -40,7 +42,7 @@ the `X-API-Key` header with each request. Valid API clients are configured in `a
 }
 ```
 
-The Client name and Client ID fields are saved in the database with each email submitted using that ID.
+The Client Name and ID fields are saved in the database with each email record.
 
 ### API Endpoints
 
@@ -98,7 +100,7 @@ If no email tasks are submitted, the following response will be returned:
 
 #### GET /batches
 
-Returns a list of all Batch IDs in the system for the provided API Key, ordered by creation date descending.
+Returns a list of all Batch IDs in the system for the provided Client ID, ordered by creation date descending.
 
 #### POST /batch/
 

@@ -38,7 +38,7 @@ public class ApiKeyAuthenticationHandler(
 
         var claims = new List<Claim>
         {
-            new(nameof(ApiClient.Client), matchingKey.Client),
+            new(nameof(ApiClient.ClientName), matchingKey.ClientName),
             new(nameof(ApiClient.ClientId), matchingKey.ClientId.ToString()),
         };
 

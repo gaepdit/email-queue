@@ -27,7 +27,7 @@ public record QueueSettings
 
 public record ApiClient
 {
-    public required string Client { get; init; }
+    public required string ClientName { get; init; }
     public required Guid ClientId { get; init; }
     public required string ApiKey { get; init; }
 }

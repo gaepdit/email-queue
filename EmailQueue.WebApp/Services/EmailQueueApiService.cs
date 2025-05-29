@@ -13,11 +13,11 @@ public class EmailQueueApiService(
     public async Task<IEnumerable<EmailTaskViewModel>> GetBatchDetailsAsync(string batchId)
     {
         logger.LogInformation("Getting batch {BatchId}", batchId);
-        using var client = httpClientFactory.CreateClient(nameof(EmailQueueApiService));
-        client.DefaultRequestHeaders.Add("X-Client-ID", apiSettings.Value.ClientId);
-        client.DefaultRequestHeaders.Add("X-API-Key", apiSettings.Value.ApiKey);
+        using var httpClient = httpClientFactory.CreateClient(nameof(EmailQueueApiService));
+        httpClient.DefaultRequestHeaders.Add("X-Client-ID", apiSettings.Value.ClientId.ToString());
+        httpClient.DefaultRequestHeaders.Add("X-API-Key", apiSettings.Value.ApiKey);
         var requestPayload = new { BatchId = batchId };
-        using var response = await client.PostAsync(UriCombine(apiSettings.Value.BaseUrl, "batch"),
+        using var response = await httpClient.PostAsync(UriCombine(apiSettings.Value.BaseUrl, "batch"),
             new StringContent(JsonSerializer.Serialize(requestPayload), Encoding.UTF8, "application/json"));
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadFromJsonAsync<List<EmailTaskViewModel>>().ConfigureAwait(false) ?? [];
@@ -26,10 +26,10 @@ public class EmailQueueApiService(
     public async Task<IEnumerable<BatchViewModel>> GetAllBatchesAsync()
     {
         logger.LogInformation("Getting all batches");
-        using var client = httpClientFactory.CreateClient(nameof(EmailQueueApiService));
-        client.DefaultRequestHeaders.Add("X-Client-ID", apiSettings.Value.ClientId);
-        client.DefaultRequestHeaders.Add("X-API-Key", apiSettings.Value.ApiKey);
-        using var response = await client.GetAsync(UriCombine(apiSettings.Value.BaseUrl, "batches"));
+        using var httpClient = httpClientFactory.CreateClient(nameof(EmailQueueApiService));
+        httpClient.DefaultRequestHeaders.Add("X-Client-ID", apiSettings.Value.ClientId.ToString());
+        httpClient.DefaultRequestHeaders.Add("X-API-Key", apiSettings.Value.ApiKey);
+        using var response = await httpClient.GetAsync(UriCombine(apiSettings.Value.BaseUrl, "batches"));
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadFromJsonAsync<List<BatchViewModel>>().ConfigureAwait(false) ?? [];
     }
@@ -51,7 +51,7 @@ public record EmailTaskViewModel : IEndPointViewModel
 {
     public int Counter { get; init; }
     public required string Status { get; init; }
-    public required string Client { get; init; }
+    public required string ClientName { get; init; }
     public DateTime CreatedAt { get; init; }
     public DateTime? AttemptedAt { get; init; }
     public List<string> Recipients { get; init; } = [];
