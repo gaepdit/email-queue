@@ -1,4 +1,4 @@
-using EmailQueue.WebApp.Platform;
+using EmailQueue.WebApp.Settings;
 using Microsoft.Extensions.Options;
 using System.Text;
 using System.Text.Json;

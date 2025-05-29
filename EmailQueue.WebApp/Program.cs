@@ -1,6 +1,5 @@
-﻿using EmailQueue.WebApp.Platform;
-using EmailQueue.WebApp.Platform.DataProtection;
-using EmailQueue.WebApp.Services;
+﻿using EmailQueue.WebApp.Services;
+using EmailQueue.WebApp.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.BindSettings();
 
 // Persist data protection keys.
-await builder.AddDataProtectionServices();
+builder.Services.AddDataProtection();
 
 // Configure the EmailQueue API.
 builder.Services.AddHttpClient<EmailQueueApiService>();
