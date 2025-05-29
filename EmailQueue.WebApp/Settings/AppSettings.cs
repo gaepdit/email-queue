@@ -25,6 +25,6 @@ public static class AppSettings
 public record EmailQueueApi
 {
     public required string BaseUrl { get; init; }
-    public required string ClientId { get; init; }
+    public required Guid ClientId { get; init; }
     public required string ApiKey { get; init; }
 }

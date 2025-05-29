@@ -82,11 +82,11 @@ Response if successful:
 {
   "status": "Success",
   "count": 1,
-  "batchId": "id-of-batch"
+  "batchId": "guid-of-batch"
 }
 ```
 
-Currently, the Batch ID is a ten-character random string.
+The Batch ID is a GUID.
 
 If no email tasks are submitted, the following response will be returned:
 
@@ -104,9 +104,15 @@ Returns a list of all Batch IDs in the system for the provided Client ID, ordere
 
 #### POST /batch/
 
-Body: "{batchId}"
-
 Returns all email tasks for a specific Batch ID, ordered by creation date ascending.
+
+Request body: 
+
+```json
+{
+  "batchId": "guid-of-batch"
+}
+```
 
 ---
 

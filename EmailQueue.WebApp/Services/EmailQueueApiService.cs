@@ -10,7 +10,7 @@ public class EmailQueueApiService(
     IOptionsSnapshot<EmailQueueApi> apiSettings,
     ILogger<EmailQueueApiService> logger)
 {
-    public async Task<IEnumerable<EmailTaskViewModel>> GetBatchDetailsAsync(string batchId)
+    public async Task<IEnumerable<EmailTaskViewModel>> GetBatchDetailsAsync(Guid batchId)
     {
         logger.LogInformation("Getting batch {BatchId}", batchId);
         using var httpClient = httpClientFactory.CreateClient(nameof(EmailQueueApiService));
@@ -62,7 +62,7 @@ public record EmailTaskViewModel : IEndPointViewModel
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public record BatchViewModel : IEndPointViewModel
 {
-    public required string BatchId { get; init; }
+    public Guid BatchId { get; init; }
     public int Count { get; init; }
     public DateTime CreatedAt { get; init; }
 }

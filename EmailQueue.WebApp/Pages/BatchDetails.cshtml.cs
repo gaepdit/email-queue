@@ -9,7 +9,7 @@ public class BatchDetailsModel(EmailQueueApiService apiService, ILogger<BatchDet
 {
     [BindProperty]
     [Display(Name = "Batch ID")]
-    public string? BatchId { get; set; }
+    public Guid? BatchId { get; set; }
 
     public IEnumerable<EmailTaskViewModel> EmailTasks { get; private set; } = [];
     public string? ErrorMessage { get; private set; }
@@ -25,7 +25,7 @@ public class BatchDetailsModel(EmailQueueApiService apiService, ILogger<BatchDet
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (string.IsNullOrWhiteSpace(BatchId) || BatchId.Length > 10)
+        if (!BatchId.HasValue)
         {
             NotificationMessage = "Please enter a valid Batch ID to continue.";
             return RedirectToPage();
@@ -33,7 +33,7 @@ public class BatchDetailsModel(EmailQueueApiService apiService, ILogger<BatchDet
 
         try
         {
-            EmailTasks = await apiService.GetBatchDetailsAsync(BatchId);
+            EmailTasks = await apiService.GetBatchDetailsAsync(BatchId.Value);
             ShowResults = true;
         }
         catch (Exception ex)

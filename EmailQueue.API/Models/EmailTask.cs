@@ -10,10 +10,7 @@ public record EmailTask : NewEmailTask
 
     // Properties
     public Guid Id { get; }
-
-    [StringLength(10)]
-    public string BatchId { get; private init; } = null!;
-
+    public Guid BatchId { get; private init; } 
     public int Counter { get; private init; }
 
     [StringLength(50)]
@@ -41,7 +38,7 @@ public record EmailTask : NewEmailTask
         AttemptedAt = DateTime.UtcNow;
     }
 
-    public static EmailTask Create(NewEmailTask resource, string batchId, string clientName, Guid clientId, int counter) =>
+    public static EmailTask Create(NewEmailTask resource, Guid batchId, string clientName, Guid clientId, int counter) =>
         new(id: Guid.NewGuid())
         {
             BatchId = batchId,
