@@ -18,25 +18,6 @@ await builder.AddDataProtectionServices();
 
 // Configure API controllers.
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-
-// Configure Swagger.
-if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddSwaggerGen(options =>
-    {
-        const string securityDefinitionName = "ApiKeyHeader";
-        options.AddSecurityDefinition(securityDefinitionName, new OpenApiSecurityScheme()
-        {
-            Name = ApiKeyAuthenticationHandler.ApiKeyHeaderName,
-            In = ParameterLocation.Header,
-            Type = SecuritySchemeType.ApiKey,
-        });
-        var openApiSecurityScheme = new OpenApiSecurityScheme
-            { Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = securityDefinitionName } };
-        options.AddSecurityRequirement(new OpenApiSecurityRequirement { { openApiSecurityScheme, [] } });
-    });
-}
 
 // Configure the API Key authentication scheme.
 builder.Services.AddAuthentication(nameof(SecuritySchemeType.ApiKey))
@@ -66,12 +47,6 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<EmailQueueDbContext>();
     await context.Database.EnsureCreatedAsync();
-}
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
 }
 
 app.UseRaygun();
