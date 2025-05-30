@@ -13,8 +13,8 @@ public class ApiKeyAuthenticationHandler(
     UrlEncoder encoder)
     : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder)
 {
-    private const string ClientIdHeaderName = "X-Client-ID";
-    private const string ApiKeyHeaderName = "X-API-Key";
+    internal const string ClientIdHeaderName = "X-Client-ID";
+    internal const string ApiKeyHeaderName = "X-API-Key";
 
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
