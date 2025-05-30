@@ -3,18 +3,21 @@ using EmailQueue.API.Data;
 using EmailQueue.API.Services;
 using EmailQueue.API.Settings;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Mindscape.Raygun4Net.AspNetCore;
 using Mindscape.Raygun4Net.Extensions.Logging;
+using System.Runtime.InteropServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Populate application settings.
 builder.BindAppSettings();
 
-// Persist data protection keys.
-builder.Services.AddDataProtection();
+// Configure data protection keys.
+var dpb = builder.Services.AddDataProtection();
+if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) dpb.ProtectKeysWithDpapi();
 
 // Configure API controllers.
 builder.Services.AddControllers();
@@ -79,5 +82,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-app.MapGet("/health", () => Results.Ok());
+app.MapGet("/health", () => Results.Ok("OK"));
 await app.RunAsync();
