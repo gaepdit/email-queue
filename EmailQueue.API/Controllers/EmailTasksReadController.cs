@@ -1,5 +1,6 @@
 using EmailQueue.API.AuthHandlers;
 using EmailQueue.API.Data;
+using EmailQueue.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,7 @@ public class EmailTasksReadController(EmailQueueDbContext dbContext) : Controlle
         Ok(await dbContext.EmailTasks
             .Where(t => t.BatchId == request.BatchId && t.ClientId == User.ApiClientId())
             .OrderBy(t => t.CreatedAt)
+            .Select(t => new EmailTaskStatusView(t))
             .ToListAsync());
 
     public record BatchRequest([property: JsonRequired] Guid BatchId);
