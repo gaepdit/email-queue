@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace EmailQueue.WebApp.Settings;
+namespace Sample.WebApp.Settings;
 
 public static class AppSettings
 {

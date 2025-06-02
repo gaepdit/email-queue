@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace EmailQueue.WebApp.Pages;
+namespace Sample.WebApp.Pages;
 
 [AllowAnonymous]
 public class IndexModel : PageModel
