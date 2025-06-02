@@ -19,12 +19,6 @@ public class EmailProcessorService(
 {
     public async Task ProcessEmailAsync(EmailTask email)
     {
-        if (AppSettings.EmailServiceSettings is { EnableEmail: false, EnableEmailAuditing: false })
-        {
-            logger.LogWarning("Emailing is not enabled on the server");
-            return;
-        }
-
         logger.LogInformation("Processing email: {Counter}", email.Counter);
 
         // Get a fresh instance of the task that is tracked by this context.
@@ -32,6 +26,14 @@ public class EmailProcessorService(
         if (dbTask == null)
         {
             logger.LogError("Email {Id} not found in database: {Counter}", email.Id, email.Counter);
+            return;
+        }
+
+        if (AppSettings.EmailServiceSettings is { EnableEmail: false, EnableEmailAuditing: false })
+        {
+            dbTask.MarkAsSkipped();
+            await dbContext.SaveChangesAsync();
+            logger.LogWarning("Emailing is not enabled on the server");
             return;
         }
 
