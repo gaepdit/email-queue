@@ -12,6 +12,20 @@
 GET {{HostAddress}}/health
 Accept: application/json
 
+### List all email batches
+GET {{HostAddress}}/batches
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
+### Post an empty array
+POST {{HostAddress}}/add
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
+[]
+
 ### Send Emails
 POST {{HostAddress}}/add
 Content-Type: application/json
@@ -77,17 +91,3 @@ X-API-Key: {{ApiKey}}
 {
   "BatchId": "{{batchId}}"
 }
-
-### List all email batches
-GET {{HostAddress}}/batches
-Content-Type: application/json
-X-Client-Id: {{ClientId}}
-X-API-Key: {{ApiKey}}
-
-### Post an empty array
-POST {{HostAddress}}/add
-Content-Type: application/json
-X-Client-Id: {{ClientId}}
-X-API-Key: {{ApiKey}}
-
-[]

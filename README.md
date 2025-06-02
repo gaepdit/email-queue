@@ -35,8 +35,8 @@ Valid API clients are configured in `appsettings.json`:
   "ApiClients": [
     {
       "ClientName": "Your Web Application",
-      "ClientId": "your-guid",
-      "ApiKey": "your-secret-api-key-1"
+      "ClientId": "your-client-guid",
+      "ApiKey": "your-secret-api-key"
     }
   ]
 }
@@ -76,7 +76,7 @@ Each email task contains the following properties:
 - `body`: Email content, max 20,000 characters (Required)
 - `isHtml`: Boolean indicating if the body is formatted as HTML (Required)
 
-Response if successful:
+Response format if successful:
 
 ```json
 {
@@ -102,9 +102,21 @@ If no email tasks are submitted, the following response will be returned:
 
 Returns a list of all Batch IDs in the system for the provided Client ID, ordered by creation date descending.
 
+Response format:
+
+```json
+[
+  {
+    "batchId": "guid-of-batch",
+    "count": 1,
+    "createdAt": "2025-06-02T19:30:00.0000000"
+  }
+]
+```
+
 #### POST /batch/
 
-Returns all email tasks for a specific Batch ID, ordered by creation date ascending.
+Returns the status of all email tasks for a specific Batch ID, ordered by creation date ascending.
 
 Request body: 
 
@@ -112,6 +124,26 @@ Request body:
 {
   "batchId": "guid-of-batch"
 }
+```
+
+Response format:
+
+```json
+[
+  {
+    "id": "guid-of-email-task",
+    "counter": 1,
+    "status": "Queued",
+    "createdAt": "2025-06-02T19:30:00.0000000",
+    "attemptedAt": "2025-06-02T19:30:00.0000000",
+    "from": "from.email@example.net",
+    "recipients": [
+      "email@example.com"
+    ],
+    "copyRecipients": [],
+    "subject": "Email Subject"
+  }
+]
 ```
 
 ---
@@ -127,8 +159,8 @@ through `appsettings.json` with the following sections:
 {
   "EmailQueueApi": {
     "BaseUrl": "https://localhost:7145",
-    "ClientId": "your-guid",
-    "ApiKey": "your-secret-api-key-1"
+    "ClientId": "your-client-guid",
+    "ApiKey": "your-secret-api-key"
   }
 }
 ```
