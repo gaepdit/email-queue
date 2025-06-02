@@ -4,7 +4,7 @@ VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailQueue.API", "EmailQueue.API\EmailQueue.API.csproj", "{364FF1DE-0236-FF63-20A8-211FF3D9308D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailQueue.WebApp", "EmailQueue.WebApp\EmailQueue.WebApp.csproj", "{DCDCE9D6-BD2F-4F1F-AB34-88DB025DDB84}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.WebApp", "Sample.WebApp\Sample.WebApp.csproj", "{DCDCE9D6-BD2F-4F1F-AB34-88DB025DDB84}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5979AD72-0515-4E73-8E4A-904607E61263}"
 EndProject

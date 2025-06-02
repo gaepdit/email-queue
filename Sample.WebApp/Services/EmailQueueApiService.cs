@@ -1,9 +1,9 @@
-using EmailQueue.WebApp.Settings;
 using Microsoft.Extensions.Options;
+using Sample.WebApp.Settings;
 using System.Text;
 using System.Text.Json;
 
-namespace EmailQueue.WebApp.Services;
+namespace Sample.WebApp.Services;
 
 public class EmailQueueApiService(
     IHttpClientFactory httpClientFactory,

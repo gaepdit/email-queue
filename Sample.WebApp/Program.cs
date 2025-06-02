@@ -1,5 +1,5 @@
-using EmailQueue.WebApp.Services;
-using EmailQueue.WebApp.Settings;
+using Sample.WebApp.Services;
+using Sample.WebApp.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 

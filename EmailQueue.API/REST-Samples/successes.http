@@ -4,7 +4,6 @@
 @HostAddress = https://localhost:7145
 @ClientId = 00000000-0000-0000-0000-000000000000
 @ApiKey = client-api-key-1
-@InvalidApiKey = invalid-api-key
 
 // =====================
 // == SUCCESS TESTING == 

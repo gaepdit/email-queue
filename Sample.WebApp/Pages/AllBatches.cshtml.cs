@@ -1,7 +1,7 @@
-using EmailQueue.WebApp.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Sample.WebApp.Services;
 
-namespace EmailQueue.WebApp.Pages;
+namespace Sample.WebApp.Pages;
 
 public class AllBatchesModel(EmailQueueApiService apiService, ILogger<AllBatchesModel> logger) : PageModel
 {
