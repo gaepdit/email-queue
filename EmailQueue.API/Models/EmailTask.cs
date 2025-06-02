@@ -10,7 +10,7 @@ public record EmailTask : NewEmailTask
 
     // Properties
     public Guid Id { get; }
-    public Guid BatchId { get; private init; } 
+    public Guid BatchId { get; private init; }
     public int Counter { get; private init; }
 
     [StringLength(50)]
@@ -38,7 +38,14 @@ public record EmailTask : NewEmailTask
         AttemptedAt = DateTime.UtcNow;
     }
 
-    public static EmailTask Create(NewEmailTask resource, Guid batchId, string clientName, Guid clientId, int counter) =>
+    public void MarkAsSkipped()
+    {
+        Status = "Skipped";
+        AttemptedAt = DateTime.UtcNow;
+    }
+
+    public static EmailTask Create(NewEmailTask resource, Guid batchId, string clientName, Guid clientId,
+        int counter) =>
         new(id: Guid.NewGuid())
         {
             BatchId = batchId,
