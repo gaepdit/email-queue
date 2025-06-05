@@ -19,7 +19,7 @@ public class EmailProcessorService(
 {
     public async Task ProcessEmailAsync(EmailTask email)
     {
-        logger.LogInformation("Processing email: {Counter}", email.Counter);
+        logger.LogInformation("Processing email: {Counter} (at {TimeStamp})", email.Counter, DateTime.UtcNow);
 
         // Get a fresh instance of the task that is tracked by this context.
         var dbTask = await dbContext.EmailTasks.FindAsync(email.Id);

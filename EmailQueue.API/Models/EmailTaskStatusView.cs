@@ -1,5 +1,6 @@
 namespace EmailQueue.API.Models;
 
+[UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public record EmailTaskStatusView
 {
     // Constructors
