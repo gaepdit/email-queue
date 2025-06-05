@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-      <ProjectReference Include="..\..\EmailQueue.API\EmailQueue.API.csproj" />
+      <ProjectReference Include="..\..\src\EmailQueue.API\EmailQueue.API.csproj" />
     </ItemGroup>
 </Project>
