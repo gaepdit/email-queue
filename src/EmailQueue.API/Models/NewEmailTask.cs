@@ -9,6 +9,9 @@ public record NewEmailTask
     [StringLength(100)]
     public required string From { get; init; }
 
+    [StringLength(100)]
+    public string? FromName { get; init; }
+
     [JsonRequired]
     [MinLength(1)]
     [NoEmptyStrings]

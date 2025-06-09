@@ -1,4 +1,4 @@
-﻿using EmailQueue.API.Data;
+﻿using EmailQueue.API.Database;
 using EmailQueue.API.Models;
 using EmailQueue.API.Settings;
 using GaEpd.EmailService;
@@ -48,9 +48,11 @@ public class EmailProcessorService(
         Message message;
         try
         {
-            message = Message.Create(email.Subject, email.Recipients,
+            message = Message.Create(subject: email.Subject,
+                recipients: email.Recipients,
                 textBody: email.IsHtml ? null : email.Body,
                 htmlBody: email.IsHtml ? email.Body : null,
+                senderName: email.FromName,
                 senderEmail: email.From,
                 copyRecipients: email.CopyRecipients);
         }

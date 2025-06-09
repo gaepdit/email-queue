@@ -45,6 +45,7 @@ X-API-Key: {{ApiKey}}
   },
   {
     "from": "test.from@example.net",
+    "fromName": "",
     "recipients": [
       "test2@example.com"
     ],
@@ -58,6 +59,7 @@ X-API-Key: {{ApiKey}}
   },
   {
     "from": "test.from@example.net",
+    "fromName": "Test Sender",
     "recipients": [
       "test3@example.com",
       "test3r2@example.com"
@@ -68,6 +70,7 @@ X-API-Key: {{ApiKey}}
   },
   {
     "from": "test.from@example.net",
+    "fromName": "Test Sender",
     "recipients": [
       "test4@example.com"
     ],
