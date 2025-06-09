@@ -54,6 +54,7 @@ public class EmailProcessorServiceTests
         new NewEmailTask
         {
             From = "test-from@example.com",
+            FromName = "From Name",
             Recipients = ["test-to@example.com"],
             CopyRecipients = ["test-copy@example.net"],
             Subject = "Test Subject",
@@ -153,12 +154,12 @@ public class EmailProcessorServiceTests
     }
 
     [Test]
-    public async Task ProcessEmailAsyncWithFromName_WhenSuccessful_SendsMessageWithFromName()
+    public async Task ProcessEmailAsyncWithNullFromName_WhenSuccessful_SendsMessageWithNullFromName()
     {
         // Arrange
 
         // Create email task with "From Name" property. 
-        var emailTask = EmailTask.Create(CreateEmailTask() with { FromName = "Test From Name" },
+        var emailTask = EmailTask.Create(CreateEmailTask() with { FromName = null },
             batchId: Guid.NewGuid(), clientName: "Test Client", clientId: Guid.NewGuid(), counter: 1);
         _dbContext.EmailTasks.Add(emailTask);
         await _dbContext.SaveChangesAsync();
@@ -167,14 +168,7 @@ public class EmailProcessorServiceTests
         await _sut.ProcessEmailAsync(emailTask);
 
         // Assert
-        await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m =>
-            m.SenderEmail == emailTask.From &&
-            m.SenderName == emailTask.FromName &&
-            m.Recipients.Contains(emailTask.Recipients[0]) &&
-            m.CopyRecipients.Contains(emailTask.CopyRecipients![0]) &&
-            m.Subject == emailTask.Subject &&
-            m.TextBody == emailTask.Body &&
-            m.HtmlBody == null));
+        await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m => m.SenderName == null));
     }
 
     [Test]
@@ -183,7 +177,7 @@ public class EmailProcessorServiceTests
         // Arrange
 
         // Create email task with empty "From Name" property. 
-        var emailTask = EmailTask.Create(CreateEmailTask() with { FromName = "" },
+        var emailTask = EmailTask.Create(CreateEmailTask() with { FromName = string.Empty },
             batchId: Guid.NewGuid(), clientName: "Test Client", clientId: Guid.NewGuid(), counter: 1);
         _dbContext.EmailTasks.Add(emailTask);
         await _dbContext.SaveChangesAsync();
@@ -192,13 +186,6 @@ public class EmailProcessorServiceTests
         await _sut.ProcessEmailAsync(emailTask);
 
         // Assert
-        await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m =>
-            m.SenderEmail == emailTask.From &&
-            m.SenderName == emailTask.FromName &&
-            m.Recipients.Contains(emailTask.Recipients[0]) &&
-            m.CopyRecipients.Contains(emailTask.CopyRecipients![0]) &&
-            m.Subject == emailTask.Subject &&
-            m.TextBody == emailTask.Body &&
-            m.HtmlBody == null));
+        await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m => m.SenderName == string.Empty));
     }
 }
