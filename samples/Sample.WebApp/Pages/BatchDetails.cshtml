@@ -48,7 +48,36 @@
         <div class="alert alert-info">
             @Model.EmailTasks.Count() emails found for this Batch ID.
         </div>
+    }
 
+    @if (Model.BatchStatus != null)
+    {
+        <div class="table-responsive">
+            <table class="table w-auto">
+                <thead>
+                <tr>
+                    <th scope="col" class="text-end">Total</th>
+                    <th scope="col" class="text-end">Queued</th>
+                    <th scope="col" class="text-end">Sent</th>
+                    <th scope="col" class="text-end">Failed</th>
+                    <th scope="col" class="text-end">Skipped</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row" class="text-end">@Model.BatchStatus.Count</th>
+                    <td class="text-end">@Model.BatchStatus.Queued</td>
+                    <td class="text-end">@Model.BatchStatus.Sent</td>
+                    <td class="text-end">@Model.BatchStatus.Failed</td>
+                    <td class="text-end">@Model.BatchStatus.Skipped</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    }
+
+    @if (Model.EmailTasks.Any())
+    {
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>

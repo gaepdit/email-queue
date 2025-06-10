@@ -12,6 +12,7 @@ public class BatchDetailsModel(EmailQueueApiService apiService, ILogger<BatchDet
     public Guid? BatchId { get; set; }
 
     public IEnumerable<EmailTaskViewModel> EmailTasks { get; private set; } = [];
+    public BatchStatusViewModel? BatchStatus { get; private set; }
     public string? ErrorMessage { get; private set; }
     public bool ShowResults { get; private set; }
 
@@ -34,6 +35,7 @@ public class BatchDetailsModel(EmailQueueApiService apiService, ILogger<BatchDet
         try
         {
             EmailTasks = await apiService.GetBatchDetailsAsync(BatchId.Value);
+            BatchStatus = await apiService.GetBatchStatusAsync(BatchId.Value);
             ShowResults = true;
         }
         catch (Exception ex)

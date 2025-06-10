@@ -13,7 +13,7 @@ GET {{HostAddress}}/health
 Accept: application/json
 
 ### List all email batches
-GET {{HostAddress}}/batches
+GET {{HostAddress}}/all-batches
 Content-Type: application/json
 X-Client-Id: {{ClientId}}
 X-API-Key: {{ApiKey}}
@@ -82,8 +82,18 @@ X-API-Key: {{ApiKey}}
     client.global.set("batchId", response.body.batchId);
 %}
 
+### List status for returned batch ID
+POST {{HostAddress}}/batch-status/
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
+{
+  "BatchId": "{{batchId}}"
+}
+
 ### List all email tasks for returned batch ID
-POST {{HostAddress}}/batch/
+POST {{HostAddress}}/batch-details/
 Content-Type: application/json
 X-Client-Id: {{ClientId}}
 X-API-Key: {{ApiKey}}

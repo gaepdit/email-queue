@@ -28,7 +28,11 @@ else
                 <thead>
                 <tr>
                     <th scope="col">Batch ID</th>
-                    <th scope="col" class="text-end">Count</th>
+                    <th scope="col" class="text-end">Total</th>
+                    <th scope="col" class="text-end">Queued</th>
+                    <th scope="col" class="text-end">Sent</th>
+                    <th scope="col" class="text-end">Failed</th>
+                    <th scope="col" class="text-end">Skipped</th>
                     <th scope="col" class="text-center">Created</th>
                 </tr>
                 </thead>
@@ -43,6 +47,10 @@ else
                             </form>
                         </td>
                         <td class="text-end">@task.Count</td>
+                        <td class="text-end">@task.Queued</td>
+                        <td class="text-end">@task.Sent</td>
+                        <td class="text-end">@task.Failed</td>
+                        <td class="text-end">@task.Skipped</td>
                         <td class="text-end">@task.CreatedAt.ToLocalTime().ToString(AppSettings.DateTimeFormat)</td>
                     </tr>
                 }
