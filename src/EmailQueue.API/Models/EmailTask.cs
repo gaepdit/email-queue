@@ -20,7 +20,7 @@ public record EmailTask : NewEmailTask
 
     [Required(AllowEmptyStrings = false)]
     [StringLength(15)]
-    public string Status { get; private set; } = "Queued";
+    public string Status { get; private set; } = nameof(EmailStatus.Queued);
 
     public DateTime CreatedAt { get; private init; } = DateTime.UtcNow;
     public DateTime? AttemptedAt { get; private set; }
@@ -28,19 +28,19 @@ public record EmailTask : NewEmailTask
     // Methods
     public void MarkAsSent()
     {
-        Status = "Sent";
+        Status = nameof(EmailStatus.Sent);
         AttemptedAt = DateTime.UtcNow;
     }
 
     public void MarkAsFailed()
     {
-        Status = "Failed";
+        Status = nameof(EmailStatus.Failed);
         AttemptedAt = DateTime.UtcNow;
     }
 
     public void MarkAsSkipped()
     {
-        Status = "Skipped";
+        Status = nameof(EmailStatus.Skipped);
         AttemptedAt = DateTime.UtcNow;
     }
 
@@ -60,4 +60,12 @@ public record EmailTask : NewEmailTask
             Body = resource.Body,
             IsHtml = resource.IsHtml,
         };
+
+    public enum EmailStatus
+    {
+        Queued,
+        Failed,
+        Skipped,
+        Sent,
+    }
 }

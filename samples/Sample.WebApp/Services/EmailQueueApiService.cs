@@ -17,21 +17,34 @@ public class EmailQueueApiService(
         httpClient.DefaultRequestHeaders.Add("X-Client-ID", apiSettings.Value.ClientId.ToString());
         httpClient.DefaultRequestHeaders.Add("X-API-Key", apiSettings.Value.ApiKey);
         var requestPayload = new { BatchId = batchId };
-        using var response = await httpClient.PostAsync(UriCombine(apiSettings.Value.BaseUrl, "batch"),
+        using var response = await httpClient.PostAsync(UriCombine(apiSettings.Value.BaseUrl, "batch-details"),
             new StringContent(JsonSerializer.Serialize(requestPayload), Encoding.UTF8, "application/json"));
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadFromJsonAsync<List<EmailTaskViewModel>>().ConfigureAwait(false) ?? [];
     }
 
-    public async Task<IEnumerable<BatchViewModel>> GetAllBatchesAsync()
+    public async Task<IEnumerable<BatchStatusViewModel>> GetAllBatchesAsync()
     {
         logger.LogInformation("Getting all batches");
         using var httpClient = httpClientFactory.CreateClient(nameof(EmailQueueApiService));
         httpClient.DefaultRequestHeaders.Add("X-Client-ID", apiSettings.Value.ClientId.ToString());
         httpClient.DefaultRequestHeaders.Add("X-API-Key", apiSettings.Value.ApiKey);
-        using var response = await httpClient.GetAsync(UriCombine(apiSettings.Value.BaseUrl, "batches"));
+        using var response = await httpClient.GetAsync(UriCombine(apiSettings.Value.BaseUrl, "all-batches"));
         response.EnsureSuccessStatusCode();
-        return await response.Content.ReadFromJsonAsync<List<BatchViewModel>>().ConfigureAwait(false) ?? [];
+        return await response.Content.ReadFromJsonAsync<List<BatchStatusViewModel>>().ConfigureAwait(false) ?? [];
+    }
+
+    public async Task<BatchStatusViewModel?> GetBatchStatusAsync(Guid batchId)
+    {
+        logger.LogInformation("Getting batch {BatchId}", batchId);
+        using var httpClient = httpClientFactory.CreateClient(nameof(EmailQueueApiService));
+        httpClient.DefaultRequestHeaders.Add("X-Client-ID", apiSettings.Value.ClientId.ToString());
+        httpClient.DefaultRequestHeaders.Add("X-API-Key", apiSettings.Value.ApiKey);
+        var requestPayload = new { BatchId = batchId };
+        using var response = await httpClient.PostAsync(UriCombine(apiSettings.Value.BaseUrl, "batch-status"),
+            new StringContent(JsonSerializer.Serialize(requestPayload), Encoding.UTF8, "application/json"));
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadFromJsonAsync<BatchStatusViewModel>().ConfigureAwait(false);
     }
 
     private static Uri UriCombine(string baseUrl, string? endpoint)
@@ -47,7 +60,7 @@ public class EmailQueueApiService(
 }
 
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
-public record EmailTaskViewModel : IEndPointViewModel
+public record EmailTaskViewModel
 {
     public int Counter { get; init; }
     public required string Status { get; init; }
@@ -60,11 +73,13 @@ public record EmailTaskViewModel : IEndPointViewModel
 }
 
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
-public record BatchViewModel : IEndPointViewModel
+public record BatchStatusViewModel
 {
     public Guid BatchId { get; init; }
     public int Count { get; init; }
+    public int Queued { get; init; }
+    public int Sent { get; init; }
+    public int Failed { get; init; }
+    public int Skipped { get; init; }
     public DateTime CreatedAt { get; init; }
 }
-
-public interface IEndPointViewModel;

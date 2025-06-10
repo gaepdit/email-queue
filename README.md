@@ -26,7 +26,7 @@ Configure the delay in seconds between processing each email.
 ### Security
 
 All API endpoints require authentication using a Client ID passed in the `X-Client-ID` header and an API Key passed in
-the `X-API-Key` header with each request. 
+the `X-API-Key` header with each request.
 
 Valid API clients are configured in `appsettings.json`:
 
@@ -98,7 +98,7 @@ If no email tasks are submitted, the following response will be returned:
 }
 ```
 
-#### GET /batches
+#### GET /all-batches
 
 Returns a list of all Batch IDs in the system for the provided Client ID, ordered by creation date descending.
 
@@ -109,16 +109,46 @@ Response format:
   {
     "batchId": "guid-of-batch",
     "count": 1,
+    "queued": 1,
+    "sent": 0,
+    "failed": 0,
+    "skipped": 0,
     "createdAt": "2025-06-02T19:30:00.0000000"
   }
 ]
 ```
 
-#### POST /batch/
+#### POST /batch-status
 
-Returns the status of all email tasks for a specific Batch ID, ordered by creation date ascending.
+Returns the status of a specific Batch ID.
 
-Request body: 
+Request body:
+
+```json
+{
+  "batchId": "guid-of-batch"
+}
+```
+
+Response format:
+
+```json
+{
+  "batchId": "guid-of-batch",
+  "count": 1,
+  "queued": 1,
+  "sent": 0,
+  "failed": 0,
+  "skipped": 0,
+  "createdAt": "2025-06-02T19:30:00.0000000"
+}
+```
+
+#### POST /batch-details
+
+Returns the status of each email task for a specific Batch ID, ordered by creation date ascending.
+
+Request body:
 
 ```json
 {

@@ -5,7 +5,7 @@ namespace Sample.WebApp.Pages;
 
 public class AllBatchesModel(EmailQueueApiService apiService, ILogger<AllBatchesModel> logger) : PageModel
 {
-    public IEnumerable<BatchViewModel> AllBatches { get; private set; } = [];
+    public IEnumerable<BatchStatusViewModel> AllBatches { get; private set; } = [];
     public string? ErrorMessage { get; private set; }
 
     public async Task OnGetAsync()

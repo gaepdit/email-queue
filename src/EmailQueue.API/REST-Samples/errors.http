@@ -11,7 +11,19 @@
 // == ERROR TESTING == 
 
 ### GET (HTTP 401 Unauthorized) invalid Client ID
-GET {{HostAddress}}/batches
+GET {{HostAddress}}/all-batches
+Content-Type: application/json
+X-Client-Id: {{InvalidClientId}}
+X-API-Key: {{ApiKey}}
+
+### POST (HTTP 401 Unauthorized) invalid Client ID
+POST {{HostAddress}}/batch-details
+Content-Type: application/json
+X-Client-Id: {{InvalidClientId}}
+X-API-Key: {{ApiKey}}
+
+### POST (HTTP 401 Unauthorized) invalid Client ID
+POST {{HostAddress}}/batch-status
 Content-Type: application/json
 X-Client-Id: {{InvalidClientId}}
 X-API-Key: {{ApiKey}}
@@ -25,7 +37,19 @@ X-API-Key: {{ApiKey}}
 []
 
 ### GET (HTTP 401 Unauthorized) incorrect API key
-GET {{HostAddress}}/batches
+GET {{HostAddress}}/all-batches
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{InvalidApiKey}}
+
+### POST (HTTP 401 Unauthorized) incorrect API key
+POST {{HostAddress}}/batch-details
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{InvalidApiKey}}
+
+### POST (HTTP 401 Unauthorized) incorrect API key
+POST {{HostAddress}}/batch-status
 Content-Type: application/json
 X-Client-Id: {{ClientId}}
 X-API-Key: {{InvalidApiKey}}
@@ -39,23 +63,37 @@ X-API-Key: {{InvalidApiKey}}
 []
 
 ### (HTTP 401 Unauthorized) missing Client ID
-GET {{HostAddress}}/batches
+GET {{HostAddress}}/all-batches
 Content-Type: application/json
 X-API-Key: {{ApiKey}}
 
 ### (HTTP 401 Unauthorized) missing API key
-GET {{HostAddress}}/batches
+GET {{HostAddress}}/all-batches
 Content-Type: application/json
 X-Client-Id: {{ClientId}}
 
 ### (HTTP 400 Bad Request) missing Batch Request
-POST {{HostAddress}}/batch/
+POST {{HostAddress}}/batch-details
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
+### (HTTP 400 Bad Request) missing Batch Request
+POST {{HostAddress}}/batch-status
 Content-Type: application/json
 X-Client-Id: {{ClientId}}
 X-API-Key: {{ApiKey}}
 
 ### (HTTP 400 Bad Request) empty Batch Request
-POST {{HostAddress}}/batch/
+POST {{HostAddress}}/batch-details
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
+{}
+
+### (HTTP 400 Bad Request) empty Batch Request
+POST {{HostAddress}}/batch-status
 Content-Type: application/json
 X-Client-Id: {{ClientId}}
 X-API-Key: {{ApiKey}}
@@ -63,7 +101,17 @@ X-API-Key: {{ApiKey}}
 {}
 
 ### (HTTP 400 Bad Request) empty Batch ID
-POST {{HostAddress}}/batch/
+POST {{HostAddress}}/batch-details
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
+{
+  "BatchId": ""
+}
+
+### (HTTP 400 Bad Request) empty Batch ID
+POST {{HostAddress}}/batch-status
 Content-Type: application/json
 X-Client-Id: {{ClientId}}
 X-API-Key: {{ApiKey}}
