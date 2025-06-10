@@ -1,4 +1,4 @@
-using EmailQueue.API.Data;
+using EmailQueue.API.Database;
 using EmailQueue.API.Models;
 using EmailQueue.API.Services;
 using EmailQueue.API.Settings;
@@ -22,12 +22,8 @@ public class EmailProcessorServiceTests
     {
         // Set up configuration and bind settings before creating any services
         new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string?>
-            {
-                { "EmailServiceSettings:EnableEmail", "true" },
-                { "EmailServiceSettings:DefaultSenderEmail", "default@example.com" },
-                { "EmailServiceSettings:DefaultSenderName", "Default Sender" },
-            }).Build().GetSection(nameof(AppSettings.EmailServiceSettings))
+            .AddInMemoryCollection(new Dictionary<string, string?> { { "EmailServiceSettings:EnableEmail", "true" } })
+            .Build().GetSection(nameof(AppSettings.EmailServiceSettings))
             .Bind(AppSettings.EmailServiceSettings);
 
         _emailService = Substitute.For<IEmailService>();
@@ -57,9 +53,10 @@ public class EmailProcessorServiceTests
     private static EmailTask CreateEmailTask() => EmailTask.Create(
         new NewEmailTask
         {
-            From = "test@example.com",
-            Recipients = ["test@example.com"],
-            CopyRecipients = ["test@example.net"],
+            From = "test-from@example.com",
+            FromName = "From Name",
+            Recipients = ["test-to@example.com"],
+            CopyRecipients = ["test-copy@example.net"],
             Subject = "Test Subject",
             Body = "Test Body",
             IsHtml = false,
@@ -146,6 +143,7 @@ public class EmailProcessorServiceTests
         _emailTask.Status.Should().Be("Sent");
         await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m =>
             m.SenderEmail == _emailTask.From &&
+            m.SenderName == _emailTask.FromName &&
             m.Recipients.Contains(_emailTask.Recipients[0]) &&
             m.CopyRecipients.Contains(_emailTask.CopyRecipients![0]) &&
             m.Subject == _emailTask.Subject &&
@@ -153,5 +151,41 @@ public class EmailProcessorServiceTests
             m.HtmlBody == null));
         _logger.Received().Log(LogLevel.Information, Arg.Any<EventId>(), Arg.Any<object>(), null,
             Arg.Any<Func<object, Exception?, string>>());
+    }
+
+    [Test]
+    public async Task ProcessEmailAsyncWithNullFromName_WhenSuccessful_SendsMessageWithNullFromName()
+    {
+        // Arrange
+
+        // Create email task with "From Name" property. 
+        var emailTask = EmailTask.Create(CreateEmailTask() with { FromName = null },
+            batchId: Guid.NewGuid(), clientName: "Test Client", clientId: Guid.NewGuid(), counter: 1);
+        _dbContext.EmailTasks.Add(emailTask);
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        await _sut.ProcessEmailAsync(emailTask);
+
+        // Assert
+        await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m => m.SenderName == null));
+    }
+
+    [Test]
+    public async Task ProcessEmailAsyncWithEmptyFromName_WhenSuccessful_SendsMessageWithEmptyFromName()
+    {
+        // Arrange
+
+        // Create email task with empty "From Name" property. 
+        var emailTask = EmailTask.Create(CreateEmailTask() with { FromName = string.Empty },
+            batchId: Guid.NewGuid(), clientName: "Test Client", clientId: Guid.NewGuid(), counter: 1);
+        _dbContext.EmailTasks.Add(emailTask);
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        await _sut.ProcessEmailAsync(emailTask);
+
+        // Assert
+        await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m => m.SenderName == string.Empty));
     }
 }

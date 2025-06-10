@@ -1,7 +1,7 @@
 using EmailQueue.API.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EmailQueue.API.Data;
+namespace EmailQueue.API.Database;
 
 public class EmailQueueDbContext(DbContextOptions<EmailQueueDbContext> options) : DbContext(options)
 {

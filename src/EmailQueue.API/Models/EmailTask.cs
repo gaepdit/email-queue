@@ -53,6 +53,7 @@ public record EmailTask : NewEmailTask
             ClientName = clientName,
             ClientId = clientId,
             From = resource.From,
+            FromName = resource.FromName,
             Recipients = resource.Recipients,
             CopyRecipients = resource.CopyRecipients,
             Subject = resource.Subject,

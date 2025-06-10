@@ -1,4 +1,4 @@
-using EmailQueue.API.Data;
+using EmailQueue.API.Database;
 using EmailQueue.API.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
