@@ -44,6 +44,7 @@
 
     <ItemGroup>
         <None Include="../../README.md" />
+        <None Include="../../CHANGELOG.md" />
     </ItemGroup>
 
 </Project>
