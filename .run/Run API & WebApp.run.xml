@@ -1,7 +1,6 @@
 ﻿<component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Run API &amp; WebApp" type="CompoundRunConfigurationType">
     <toRun name="API" type="LaunchSettings" />
-    <toRun name="WebApp" type="LaunchSettings" />
     <method v="2" />
   </configuration>
 </component>
