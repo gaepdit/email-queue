@@ -1,4 +1,4 @@
-﻿using EmailQueue.API.Database;
+using EmailQueue.API.Database;
 using EmailQueue.API.Models;
 using EmailQueue.API.Settings;
 using GaEpd.EmailService;
@@ -58,10 +58,10 @@ public class EmailProcessorService(
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Unable to create an email message from {Counter}", email.Counter);
             dbTask.MarkAsFailed();
             await dbContext.SaveChangesAsync();
-            return;
+            ex.Data.Add("Counter", email.Counter);
+            throw;
         }
 
         try
