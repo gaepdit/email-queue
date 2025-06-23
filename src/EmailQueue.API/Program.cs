@@ -45,9 +45,11 @@ builder.Logging.AddRaygunLogger(options =>
 
 var app = builder.Build();
 
+
 // Ensure the database is created.
-using (var scope = app.Services.CreateScope())
+if (app.Environment.IsDevelopment())
 {
+    using var scope = app.Services.CreateScope();
     var context = scope.ServiceProvider.GetRequiredService<EmailQueueDbContext>();
     await context.Database.EnsureCreatedAsync();
 }
