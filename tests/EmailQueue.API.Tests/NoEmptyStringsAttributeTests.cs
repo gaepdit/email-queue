@@ -1,7 +1,7 @@
 ﻿using EmailQueue.API.Validation;
 using System.ComponentModel.DataAnnotations;
 
-namespace EmailQueue.API.Tests.Validation;
+namespace EmailQueue.API.Tests;
 
 [TestFixture]
 public class NoEmptyStringsAttributeTests

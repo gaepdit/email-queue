@@ -8,8 +8,9 @@ using System.Diagnostics;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
-namespace EmailQueue.API.Tests.AuthHandlers;
+namespace EmailQueue.API.Tests;
 
+[TestFixture]
 public class ApiKeyAuthenticationHandlerTests
 {
     private ApiKeyAuthenticationHandler _sut;

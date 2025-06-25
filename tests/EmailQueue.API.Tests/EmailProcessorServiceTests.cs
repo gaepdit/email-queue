@@ -7,8 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace EmailQueue.API.Tests.Services;
+namespace EmailQueue.API.Tests;
 
+[TestFixture]
 public class EmailProcessorServiceTests
 {
     private EmailProcessorService _sut;
@@ -29,8 +30,7 @@ public class EmailProcessorServiceTests
         _emailService = Substitute.For<IEmailService>();
 
         var options = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase(databaseName: "EmailQueueTest")
-            .Options;
+            .UseInMemoryDatabase(databaseName: "EmailQueueTest").Options;
         _dbContext = new AppDbContext(options);
 
         _logger = Substitute.For<ILogger<EmailProcessorService>>();
