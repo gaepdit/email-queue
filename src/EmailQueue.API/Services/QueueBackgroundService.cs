@@ -1,4 +1,4 @@
-using EmailQueue.API.Settings;
+using EmailQueue.API.Platform;
 
 namespace EmailQueue.API.Services;
 

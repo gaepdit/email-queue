@@ -1,10 +1,20 @@
-using EmailQueue.API.Settings;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
-namespace EmailQueue.API.AuthHandlers;
+namespace EmailQueue.API.Platform;
+
+internal static class AuthenticationHandlerExtensions
+{
+    public static void AddApiKeyAuthentication(this IServiceCollection services)
+    {
+        services.AddAuthentication(nameof(SecuritySchemeType.ApiKey))
+            .AddScheme<AuthenticationSchemeOptions, ApiKeyAuthenticationHandler>(nameof(SecuritySchemeType.ApiKey),
+                null);
+    }
+}
 
 public class ApiKeyAuthenticationHandler(
     IOptionsMonitor<AuthenticationSchemeOptions> options,

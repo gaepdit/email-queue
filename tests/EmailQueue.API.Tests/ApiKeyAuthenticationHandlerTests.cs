@@ -1,5 +1,4 @@
-using EmailQueue.API.AuthHandlers;
-using EmailQueue.API.Settings;
+using EmailQueue.API.Platform;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -8,8 +7,9 @@ using System.Diagnostics;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
-namespace EmailQueue.API.Tests.AuthHandlers;
+namespace EmailQueue.API.Tests;
 
+[TestFixture]
 public class ApiKeyAuthenticationHandlerTests
 {
     private ApiKeyAuthenticationHandler _sut;

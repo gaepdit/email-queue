@@ -1,10 +1,7 @@
-using EmailQueue.API.AuthHandlers;
 using EmailQueue.API.Database;
-using EmailQueue.API.Models;
-using EmailQueue.API.ViewModels;
+using EmailQueue.API.Platform;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 
@@ -13,48 +10,24 @@ namespace EmailQueue.API.Controllers;
 [ApiController]
 [Route("/")]
 [Authorize(AuthenticationSchemes = nameof(SecuritySchemeType.ApiKey))]
-public class EmailTasksReadController(EmailQueueDbContext dbContext) : ControllerBase
+public class EmailTasksReadController(AppDbContext db) : ControllerBase
 {
+    private Guid ClientId => User.ApiClientId();
+
     [HttpGet("all-batches")]
-    public async Task<ActionResult> GetAllBatchesAsync() =>
-        Ok(await QueryByClientId()
-            .GetBatchStatus()
-            .OrderByDescending(g => g.CreatedAt)
-            .ToListAsync());
+    public async Task<IResult> GetAllBatchesAsync() =>
+        Results.Ok(await ReadRepository.GetAllBatchesAsync(db, ClientId));
 
     [HttpPost("batch-details")]
-    public async Task<ActionResult> GetBatchDetailsAsync([FromBody] BatchRequest request) =>
-        Ok(await QueryByClientId()
-            .Where(t => t.BatchId == request.BatchId)
-            .OrderBy(t => t.CreatedAt)
-            .Select(t => new EmailTaskStatusView(t))
-            .ToListAsync());
+    public async Task<IResult> GetBatchDetailsAsync([FromBody] BatchRequest request) =>
+        Results.Ok(await ReadRepository.GetBatchDetailsAsync(db, ClientId, request.BatchId));
 
     [HttpPost("batch-status")]
-    public async Task<ActionResult> GetBatchStatusAsync([FromBody] BatchRequest request) =>
-        Ok(await QueryByClientId()
-            .Where(t => t.BatchId == request.BatchId)
-            .GetBatchStatus()
-            .SingleOrDefaultAsync());
-
-    private IQueryable<EmailTask> QueryByClientId() =>
-        dbContext.EmailTasks.Where(t => t.ClientId == User.ApiClientId());
+    public async Task<IResult> GetBatchStatusAsync([FromBody] BatchRequest request)
+    {
+        var status = await ReadRepository.GetBatchStatusAsync(db, ClientId, request.BatchId);
+        return status is null ? Results.NotFound("Batch ID not found.") : Results.Ok(status);
+    }
 }
 
 public record BatchRequest([property: JsonRequired] Guid BatchId);
-
-internal static class QueryableExtensions
-{
-    public static IQueryable<BatchStatusView> GetBatchStatus(this IQueryable<EmailTask> emailTasks) =>
-        emailTasks.GroupBy(t => t.BatchId)
-            .Select(g => new BatchStatusView
-            {
-                BatchId = g.Key,
-                Count = g.Count(),
-                Queued = g.Count(t => t.Status == nameof(EmailTask.EmailStatus.Queued)),
-                Sent = g.Count(t => t.Status == nameof(EmailTask.EmailStatus.Sent)),
-                Failed = g.Count(t => t.Status == nameof(EmailTask.EmailStatus.Failed)),
-                Skipped = g.Count(t => t.Status == nameof(EmailTask.EmailStatus.Skipped)),
-                CreatedAt = g.Min(t => t.CreatedAt),
-            });
-}

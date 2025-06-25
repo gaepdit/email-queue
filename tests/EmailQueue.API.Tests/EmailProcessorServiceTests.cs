@@ -1,19 +1,20 @@
 using EmailQueue.API.Database;
 using EmailQueue.API.Models;
+using EmailQueue.API.Platform;
 using EmailQueue.API.Services;
-using EmailQueue.API.Settings;
 using GaEpd.EmailService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace EmailQueue.API.Tests.Services;
+namespace EmailQueue.API.Tests;
 
+[TestFixture]
 public class EmailProcessorServiceTests
 {
     private EmailProcessorService _sut;
     private IEmailService _emailService;
-    private EmailQueueDbContext _dbContext;
+    private AppDbContext _dbContext;
     private ILogger<EmailProcessorService> _logger;
     private EmailTask _emailTask;
 
@@ -28,10 +29,9 @@ public class EmailProcessorServiceTests
 
         _emailService = Substitute.For<IEmailService>();
 
-        var options = new DbContextOptionsBuilder<EmailQueueDbContext>()
-            .UseInMemoryDatabase(databaseName: "EmailQueueTest")
-            .Options;
-        _dbContext = new EmailQueueDbContext(options);
+        var options = new DbContextOptionsBuilder<AppDbContext>()
+            .UseInMemoryDatabase(databaseName: "EmailQueueTest").Options;
+        _dbContext = new AppDbContext(options);
 
         _logger = Substitute.For<ILogger<EmailProcessorService>>();
         _sut = new EmailProcessorService(_emailService, _dbContext, _logger);

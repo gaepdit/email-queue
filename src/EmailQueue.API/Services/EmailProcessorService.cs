@@ -1,8 +1,7 @@
-﻿using EmailQueue.API.Database;
+using EmailQueue.API.Database;
 using EmailQueue.API.Models;
-using EmailQueue.API.Settings;
+using EmailQueue.API.Platform;
 using GaEpd.EmailService;
-using GaEpd.EmailService.Utilities;
 
 namespace EmailQueue.API.Services;
 
@@ -13,7 +12,7 @@ public interface IEmailProcessorService
 
 public class EmailProcessorService(
     IEmailService emailService,
-    EmailQueueDbContext dbContext,
+    AppDbContext dbContext,
     ILogger<EmailProcessorService> logger)
     : IEmailProcessorService
 {
@@ -58,10 +57,10 @@ public class EmailProcessorService(
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Unable to create an email message from {Counter}", email.Counter);
             dbTask.MarkAsFailed();
             await dbContext.SaveChangesAsync();
-            return;
+            ex.Data.Add("Counter", email.Counter);
+            throw;
         }
 
         try
@@ -79,14 +78,5 @@ public class EmailProcessorService(
         dbTask.MarkAsSent();
         await dbContext.SaveChangesAsync();
         logger.LogInformation("Successfully sent email task: {Counter}", email.Counter);
-    }
-}
-
-public static class EmailServiceExtensions
-{
-    public static void AddEmailServices(this IServiceCollection services)
-    {
-        services.AddEmailService();
-        services.AddScoped<IEmailProcessorService, EmailProcessorService>();
     }
 }

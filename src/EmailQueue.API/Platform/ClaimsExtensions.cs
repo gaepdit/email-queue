@@ -1,7 +1,6 @@
-﻿using EmailQueue.API.Settings;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
-namespace EmailQueue.API.AuthHandlers;
+namespace EmailQueue.API.Platform;
 
 internal static class ClaimsExtensions
 {

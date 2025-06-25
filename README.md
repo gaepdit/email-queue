@@ -7,6 +7,11 @@ A batch of emails can be sent as an array to the API, which will then queue and 
 between each. The submitted emails are also saved in a database. If the application needs to restart before all emails
 are processed, any unsent emails will be loaded from the database and processing will continue.
 
+[![Georgia EPD-IT](https://raw.githubusercontent.com/gaepdit/gaepd-brand/main/blinkies/blinkies.cafe-gaepdit.gif)](https://github.com/gaepdit)
+[![.NET Test](https://github.com/gaepdit/email-queue/actions/workflows/dotnet-test.yml/badge.svg)](https://github.com/gaepdit/email-queue/actions/workflows/dotnet-test.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_email-queue&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gaepdit_email-queue)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_email-queue&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=gaepdit_email-queue)
+
 ## API Configuration
 
 The API application is configured through `appsettings.json` with the following sections:
@@ -46,7 +51,11 @@ The Client Name and ID fields are saved in the database with each email record.
 
 ### API Endpoints
 
-#### POST /add
+#### GET `/health`
+
+Returns OK if the API is running.
+
+#### POST `/add`
 
 Submits a batch of email tasks for processing.
 
@@ -98,7 +107,7 @@ If no email tasks are submitted, the following response will be returned:
 }
 ```
 
-#### GET /all-batches
+#### GET `/all-batches`
 
 Returns a list of all Batch IDs in the system for the provided Client ID, ordered by creation date descending.
 
@@ -118,7 +127,7 @@ Response format:
 ]
 ```
 
-#### POST /batch-status
+#### POST `/batch-status`
 
 Returns the status of a specific Batch ID.
 
@@ -144,7 +153,7 @@ Response format:
 }
 ```
 
-#### POST /batch-details
+#### POST `/batch-details`
 
 Returns the status of each email task for a specific Batch ID, ordered by creation date ascending.
 
@@ -181,9 +190,7 @@ Response format:
 ## Sample Web App Configuration
 
 A sample web application is provided to demonstrate displaying data from the API. The web application is configured
-through `appsettings.json` with the following sections:
-
-### Email Queue API
+through `appsettings.json` with the following section:
 
 ```json
 {

@@ -21,7 +21,7 @@ public class QueueService(IServiceScopeFactory scopeFactory, ILogger<QueueServic
     public async Task InitializeQueueFromDatabase()
     {
         using var scope = scopeFactory.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<EmailQueueDbContext>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
         var pendingTasks = await dbContext.EmailTasks
             .Where(t => t.Status == "Queued")
@@ -51,7 +51,7 @@ public class QueueService(IServiceScopeFactory scopeFactory, ILogger<QueueServic
 
         // Save new items to the database.
         using var scope = scopeFactory.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<EmailQueueDbContext>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         await dbContext.EmailTasks.AddRangeAsync(emailTasksList);
         await dbContext.SaveChangesAsync();
 

@@ -1,5 +1,5 @@
-using EmailQueue.API.AuthHandlers;
 using EmailQueue.API.Models;
+using EmailQueue.API.Platform;
 using EmailQueue.API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,15 +13,20 @@ namespace EmailQueue.API.Controllers;
 public class EmailTasksWriteController(IQueueService queueService) : ControllerBase
 {
     [HttpPost]
-    public async Task<IActionResult> EnqueueEmailsAsync([FromBody] NewEmailTask[] emailTasks)
+    public async Task<IResult> EnqueueEmailsAsync([FromBody] NewEmailTask[] emailTasks)
     {
-        var emptySubmissionResult = new { status = "Empty", count = 0, batchId = string.Empty };
-        if (emailTasks.Length == 0) return Ok(emptySubmissionResult);
+        if (emailTasks.Length == 0) return Results.Ok(EnqueueEmailsResult.Empty);
 
         var batchId = await queueService.EnqueueItems(emailTasks, User.ApiClientName(), User.ApiClientId());
 
         return batchId == null
-            ? Ok(emptySubmissionResult)
-            : Ok(new { status = "Success", count = emailTasks.Length, batchId });
+            ? Results.Ok(EnqueueEmailsResult.Empty)
+            : Results.Ok(new EnqueueEmailsResult("Success", emailTasks.Length, batchId.Value.ToString()));
     }
+}
+
+[UsedImplicitly]
+public record EnqueueEmailsResult(string Status, int Count = 0, string BatchId = "")
+{
+    public static EnqueueEmailsResult Empty => new("Empty");
 }
