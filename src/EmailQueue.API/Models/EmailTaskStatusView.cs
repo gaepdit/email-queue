@@ -1,6 +1,4 @@
-using EmailQueue.API.Models;
-
-namespace EmailQueue.API.ViewModels;
+namespace EmailQueue.API.Models;
 
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public record EmailTaskStatusView

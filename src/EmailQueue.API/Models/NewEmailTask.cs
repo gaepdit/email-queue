@@ -1,4 +1,4 @@
-using EmailQueue.API.Validation;
+using EmailQueue.API.Platform;
 using System.Text.Json.Serialization;
 
 namespace EmailQueue.API.Models;

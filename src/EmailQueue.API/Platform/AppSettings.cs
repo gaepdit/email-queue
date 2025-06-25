@@ -1,6 +1,6 @@
 ﻿using GaEpd.EmailService;
 
-namespace EmailQueue.API.Settings;
+namespace EmailQueue.API.Platform;
 
 public static class AppSettings
 {

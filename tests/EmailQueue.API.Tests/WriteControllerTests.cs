@@ -1,7 +1,7 @@
 ﻿using EmailQueue.API.Controllers;
 using EmailQueue.API.Models;
+using EmailQueue.API.Platform;
 using EmailQueue.API.Services;
-using EmailQueue.API.Settings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;

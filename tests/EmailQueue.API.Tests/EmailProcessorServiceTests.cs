@@ -1,7 +1,7 @@
 using EmailQueue.API.Database;
 using EmailQueue.API.Models;
+using EmailQueue.API.Platform;
 using EmailQueue.API.Services;
-using EmailQueue.API.Settings;
 using GaEpd.EmailService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

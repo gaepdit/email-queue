@@ -1,4 +1,4 @@
-namespace EmailQueue.API.Validation;
+namespace EmailQueue.API.Platform;
 
 [AttributeUsage(AttributeTargets.Property)]
 public class NoEmptyStringsAttribute : ValidationAttribute

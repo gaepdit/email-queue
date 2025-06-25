@@ -1,5 +1,4 @@
 ﻿using EmailQueue.API.Models;
-using EmailQueue.API.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmailQueue.API.Database;

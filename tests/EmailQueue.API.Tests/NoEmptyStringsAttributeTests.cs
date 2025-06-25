@@ -1,4 +1,4 @@
-﻿using EmailQueue.API.Validation;
+﻿using EmailQueue.API.Platform;
 using System.ComponentModel.DataAnnotations;
 
 namespace EmailQueue.API.Tests;

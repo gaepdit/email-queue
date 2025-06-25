@@ -1,5 +1,4 @@
-using EmailQueue.API.AuthHandlers;
-using EmailQueue.API.Settings;
+using EmailQueue.API.Platform;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;

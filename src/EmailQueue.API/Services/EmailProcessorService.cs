@@ -1,8 +1,7 @@
 using EmailQueue.API.Database;
 using EmailQueue.API.Models;
-using EmailQueue.API.Settings;
+using EmailQueue.API.Platform;
 using GaEpd.EmailService;
-using GaEpd.EmailService.Utilities;
 
 namespace EmailQueue.API.Services;
 
@@ -79,14 +78,5 @@ public class EmailProcessorService(
         dbTask.MarkAsSent();
         await dbContext.SaveChangesAsync();
         logger.LogInformation("Successfully sent email task: {Counter}", email.Counter);
-    }
-}
-
-public static class EmailServiceExtensions
-{
-    public static void AddEmailServices(this IServiceCollection services)
-    {
-        services.AddEmailService();
-        services.AddScoped<IEmailProcessorService, EmailProcessorService>();
     }
 }
