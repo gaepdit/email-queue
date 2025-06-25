@@ -13,7 +13,7 @@ public class EmailProcessorServiceTests
 {
     private EmailProcessorService _sut;
     private IEmailService _emailService;
-    private EmailQueueDbContext _dbContext;
+    private AppDbContext _dbContext;
     private ILogger<EmailProcessorService> _logger;
     private EmailTask _emailTask;
 
@@ -28,10 +28,10 @@ public class EmailProcessorServiceTests
 
         _emailService = Substitute.For<IEmailService>();
 
-        var options = new DbContextOptionsBuilder<EmailQueueDbContext>()
+        var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseInMemoryDatabase(databaseName: "EmailQueueTest")
             .Options;
-        _dbContext = new EmailQueueDbContext(options);
+        _dbContext = new AppDbContext(options);
 
         _logger = Substitute.For<ILogger<EmailProcessorService>>();
         _sut = new EmailProcessorService(_emailService, _dbContext, _logger);

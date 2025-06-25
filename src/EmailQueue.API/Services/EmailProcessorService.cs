@@ -13,7 +13,7 @@ public interface IEmailProcessorService
 
 public class EmailProcessorService(
     IEmailService emailService,
-    EmailQueueDbContext dbContext,
+    AppDbContext dbContext,
     ILogger<EmailProcessorService> logger)
     : IEmailProcessorService
 {

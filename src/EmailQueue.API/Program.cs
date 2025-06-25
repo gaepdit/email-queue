@@ -27,7 +27,7 @@ builder.Services.AddAuthentication(nameof(SecuritySchemeType.ApiKey))
     .AddScheme<AuthenticationSchemeOptions, ApiKeyAuthenticationHandler>(nameof(SecuritySchemeType.ApiKey), null);
 
 // Add database context.
-builder.Services.AddDbContext<EmailQueueDbContext>(options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Configure email queue services.
@@ -50,7 +50,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();
-    var context = scope.ServiceProvider.GetRequiredService<EmailQueueDbContext>();
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await context.Database.EnsureCreatedAsync();
 }
 

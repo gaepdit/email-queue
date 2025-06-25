@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace EmailQueue.API.Migrations
+namespace EmailQueue.API.Database.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration

@@ -13,7 +13,7 @@ namespace EmailQueue.API.Controllers;
 [ApiController]
 [Route("/")]
 [Authorize(AuthenticationSchemes = nameof(SecuritySchemeType.ApiKey))]
-public class EmailTasksReadController(EmailQueueDbContext dbContext) : ControllerBase
+public class EmailTasksReadController(AppDbContext dbContext) : ControllerBase
 {
     [HttpGet("all-batches")]
     public async Task<ActionResult> GetAllBatchesAsync() =>
