@@ -1,4 +1,4 @@
-using EmailQueue.API.Database;
+﻿using EmailQueue.API.Database;
 using EmailQueue.API.Models;
 using EmailQueue.API.Platform;
 using GaEpd.EmailService;
@@ -38,7 +38,7 @@ public class EmailProcessorService(
 
         if (email.Recipients.Count == 0 || email.Recipients.All(string.IsNullOrWhiteSpace))
         {
-            dbTask.MarkAsFailed();
+            dbTask.MarkAsFailed("No recipients specified");
             await dbContext.SaveChangesAsync();
             logger.LogWarning("No recipient specified: {Counter}", email.Counter);
             return;
@@ -57,7 +57,7 @@ public class EmailProcessorService(
         }
         catch (Exception ex)
         {
-            dbTask.MarkAsFailed();
+            dbTask.MarkAsFailed(ex.Message);
             await dbContext.SaveChangesAsync();
             ex.Data.Add("Counter", email.Counter);
             throw;
@@ -69,7 +69,7 @@ public class EmailProcessorService(
         }
         catch (Exception ex)
         {
-            dbTask.MarkAsFailed();
+            dbTask.MarkAsFailed(ex.Message);
             await dbContext.SaveChangesAsync();
             ex.Data.Add("Counter", email.Counter);
             throw;

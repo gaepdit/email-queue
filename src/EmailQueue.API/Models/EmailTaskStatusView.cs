@@ -10,6 +10,7 @@ public record EmailTaskStatusView
         Counter = e.Counter;
         ClientName = e.ClientName;
         Status = e.Status;
+        FailureReason = e.FailureReason;
         CreatedAt = e.CreatedAt;
         AttemptedAt = e.AttemptedAt;
         From = e.From;
@@ -23,6 +24,7 @@ public record EmailTaskStatusView
     public int Counter { get; }
     public string? ClientName { get; }
     public string Status { get; }
+    public string? FailureReason { get; }
     public DateTime CreatedAt { get; }
     public DateTime? AttemptedAt { get; }
     public string From { get; }

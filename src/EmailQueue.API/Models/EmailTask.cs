@@ -1,3 +1,5 @@
+using EmailQueue.API.Platform;
+
 namespace EmailQueue.API.Models;
 
 public record EmailTask : NewEmailTask
@@ -22,6 +24,9 @@ public record EmailTask : NewEmailTask
     [StringLength(15)]
     public string Status { get; private set; } = nameof(EmailStatus.Queued);
 
+    [StringLength(200)]
+    public string? FailureReason { get; private set; }
+
     public DateTime CreatedAt { get; private init; } = DateTime.UtcNow;
     public DateTime? AttemptedAt { get; private set; }
 
@@ -32,10 +37,11 @@ public record EmailTask : NewEmailTask
         AttemptedAt = DateTime.UtcNow;
     }
 
-    public void MarkAsFailed()
+    public void MarkAsFailed(string? reason)
     {
         Status = nameof(EmailStatus.Failed);
         AttemptedAt = DateTime.UtcNow;
+        FailureReason = reason.Truncate(200);
     }
 
     public void MarkAsSkipped()
