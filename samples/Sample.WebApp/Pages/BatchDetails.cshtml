@@ -87,6 +87,7 @@
                     <th scope="col">Subject</th>
                     <th scope="col">Recipients</th>
                     <th scope="col" class="text-center">Status</th>
+                    <th scope="col">Failure Reason</th>
                     <th scope="col" class="text-center">Created</th>
                     <th scope="col" class="text-center">Sent</th>
                 </tr>
@@ -110,6 +111,7 @@
                                     @task.Status
                                 </span>
                         </td>
+                        <td>@Html.DisplayFor(_ => task.FailureReason, "TextOrPlaceholder")</td>
                         <td class="text-center">@task.CreatedAt.ToLocalTime().ToString(AppSettings.DateTimeFormat)</td>
                         <td class="text-center">@(task.AttemptedAt?.ToLocalTime().ToString(AppSettings.DateTimeFormat) ?? "-")</td>
                     </tr>
