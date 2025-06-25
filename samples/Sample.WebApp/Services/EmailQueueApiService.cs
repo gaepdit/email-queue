@@ -64,6 +64,7 @@ public record EmailTaskViewModel
 {
     public int Counter { get; init; }
     public required string Status { get; init; }
+    public string? FailureReason  { get; init; }
     public required string ClientName { get; init; }
     public DateTime CreatedAt { get; init; }
     public DateTime? AttemptedAt { get; init; }
