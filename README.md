@@ -173,6 +173,7 @@ Response format:
     "id": "guid-of-email-task",
     "counter": 1,
     "status": "Queued",
+    "failureReason": null,
     "createdAt": "2025-06-02T19:30:00.0000000",
     "attemptedAt": "2025-06-02T19:30:00.0000000",
     "from": "from.email@example.net",
