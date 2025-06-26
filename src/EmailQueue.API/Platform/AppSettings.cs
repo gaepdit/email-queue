@@ -1,4 +1,5 @@
 ﻿using GaEpd.EmailService;
+using System.Reflection;
 
 namespace EmailQueue.API.Platform;
 
@@ -6,6 +7,14 @@ public static class AppSettings
 {
     public static QueueSettings QueueSettings { get; } = new();
     public static EmailServiceSettings EmailServiceSettings { get; } = new();
+
+    public static string GetVersion()
+    {
+        var entryAssembly = Assembly.GetEntryAssembly();
+        var segments = (entryAssembly?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+            .InformationalVersion ?? entryAssembly?.GetName().Version?.ToString() ?? "").Split('+');
+        return segments[0] + (segments.Length > 0 ? $"+{segments[1][..Math.Min(7, segments[1].Length)]}" : "");
+    }
 }
 
 public static class AppSettingsExtensions

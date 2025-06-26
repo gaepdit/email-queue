@@ -17,7 +17,9 @@ app.UseRaygun();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-app.MapGet("/health", () => Results.Ok("OK"));
 await app.BuildDatabaseAsync();
+
+app.MapGet("/health", () => Results.Ok("OK"));
+app.MapGet("/version", () => Results.Ok(new { version = AppSettings.GetVersion() }));
 
 await app.RunAsync();

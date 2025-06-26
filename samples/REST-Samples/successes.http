@@ -12,6 +12,10 @@
 GET {{HostAddress}}/health
 Accept: application/json
 
+### Show app version.
+GET {{HostAddress}}/version
+Accept: application/json
+
 ### List all email batches
 GET {{HostAddress}}/all-batches
 Content-Type: application/json
