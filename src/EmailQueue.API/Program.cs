@@ -21,6 +21,6 @@ app.MapControllers();
 await app.BuildDatabaseAsync();
 
 app.MapGet("/health", () => Results.Ok("OK"));
-app.MapGet("/version", () => Results.Ok(new { version = AppSettings.GetVersion() }));
+app.MapGet("/version", () => Results.Ok(new { AppSettings.Version }));
 
 await app.RunAsync();
