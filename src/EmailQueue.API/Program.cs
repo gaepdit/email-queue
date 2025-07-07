@@ -13,7 +13,8 @@ builder.ConfigureDatabase();
 builder.Services.AddEmailQueueServices();
 
 var app = builder.Build();
-app.UseRaygun();
+
+if (!string.IsNullOrEmpty(AppSettings.RaygunSettings.ApiKey)) app.UseRaygun();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
