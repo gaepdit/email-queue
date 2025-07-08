@@ -13,13 +13,14 @@ builder.ConfigureDatabase();
 builder.Services.AddEmailQueueServices();
 
 var app = builder.Build();
-app.UseRaygun();
+
+if (!string.IsNullOrEmpty(AppSettings.RaygunSettings.ApiKey)) app.UseRaygun();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 await app.BuildDatabaseAsync();
 
 app.MapGet("/health", () => Results.Ok("OK"));
-app.MapGet("/version", () => Results.Ok(new { version = AppSettings.GetVersion() }));
+app.MapGet("/version", () => Results.Ok(new { AppSettings.Version }));
 
 await app.RunAsync();
