@@ -49,11 +49,7 @@ Valid API clients are configured in `appsettings.json`:
 
 The Client Name and ID fields are saved in the database with each email record.
 
-### API Endpoints
-
-#### GET `/health`
-
-Returns OK if the API is running.
+### API Email Creation Endpoints
 
 #### POST `/add`
 
@@ -97,7 +93,7 @@ Response format if successful:
 
 The Batch ID is a GUID.
 
-If no email tasks are submitted, the following response will be returned:
+If no email tasks are submitted, the following response will be returned (no Batch ID will be created):
 
 ```json
 {
@@ -106,6 +102,66 @@ If no email tasks are submitted, the following response will be returned:
   "batchId": ""
 }
 ```
+
+#### POST `/addToBatch`
+
+Submits a batch of email tasks for processing for a specified Batch ID. (Note: The Batch ID can be one that already
+exists in the database, but it doesn't have to.)
+
+Request body:
+
+```json
+{
+  "batchId": "batchId",
+  "emails": [
+    {
+      "from": "from.email@example.net",
+      "recipients": [
+        "email@example.com"
+      ],
+      "copyRecipients": [],
+      "subject": "Email Subject",
+      "body": "Email content",
+      "isHtml": false
+    }
+  ]
+}
+```
+
+Each email task contains the same properties as in the `/add` endpoint above.
+
+Response format if successful:
+
+```json
+{
+  "status": "Success",
+  "count": 2,
+  "batchId": "guid-of-batch"
+}
+```
+
+The Batch ID is the submitted ID. The count is the number of emails added to the batch (not the total emails for the
+batch if some already exist).
+
+If no email tasks are submitted, the following response will be returned:
+
+```json
+{
+  "status": "Empty",
+  "count": 0,
+  "batchId": "guid-of-batch"
+}
+```
+
+### API Information Endpoints
+
+#### GET `/health`
+
+Returns OK if the API is running.
+
+#### GET `/version`
+
+Returns the application version number.
 
 #### GET `/all-batches`
 

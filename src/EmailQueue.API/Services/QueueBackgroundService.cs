@@ -11,7 +11,7 @@ public class QueueBackgroundService(
     public override async Task StartAsync(CancellationToken cancellationToken)
     {
         // Initialize the queue with pending tasks from the database.
-        await queueService.InitializeQueueFromDatabase();
+        await queueService.InitializeQueueFromDatabaseAsync();
         logger.LogInformation("DataProcessorService started and queue initialized.");
         await base.StartAsync(cancellationToken);
     }
@@ -25,13 +25,16 @@ public class QueueBackgroundService(
                 var emailTask = await queueService.DequeueAsync(stoppingToken);
                 if (emailTask == null) continue;
 
-                using var scope = scopeFactory.CreateScope();
-                var emailService = scope.ServiceProvider.GetRequiredService<IEmailProcessorService>();
-                await emailService.ProcessEmailAsync(emailTask);
+                using (var scope = scopeFactory.CreateScope())
+                {
+                    var emailService = scope.ServiceProvider.GetRequiredService<IEmailProcessorService>();
+                    await emailService.ProcessEmailAsync(emailTask);
+                }
 
                 logger.LogInformation("Waiting {Delay} seconds before processing next task",
                     AppSettings.QueueSettings.ProcessingDelaySeconds);
-                await Task.Delay(TimeSpan.FromSeconds(AppSettings.QueueSettings.ProcessingDelaySeconds), stoppingToken);
+                await Task.Delay(TimeSpan.FromSeconds(AppSettings.QueueSettings.ProcessingDelaySeconds),
+                    stoppingToken);
             }
             catch (OperationCanceledException)
             {
@@ -39,7 +42,8 @@ public class QueueBackgroundService(
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Failed to send email task: {Counter}", ex.Data["Counter"] ?? "Unknown");
+                logger.LogError(ex, "Failed to send email task {Counter} ({Id})",
+                    ex.Data["Counter"] ?? "Unknown Counter", ex.Data["Id"] ?? "Unknown Id");
             }
         }
     }

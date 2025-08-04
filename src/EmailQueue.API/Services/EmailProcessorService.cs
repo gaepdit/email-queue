@@ -60,6 +60,7 @@ public class EmailProcessorService(
             dbTask.MarkAsFailed(ex.Message);
             await dbContext.SaveChangesAsync();
             ex.Data.Add("Counter", email.Counter);
+            ex.Data.Add("Id", email.Id);
             throw;
         }
 
@@ -72,6 +73,7 @@ public class EmailProcessorService(
             dbTask.MarkAsFailed(ex.Message);
             await dbContext.SaveChangesAsync();
             ex.Data.Add("Counter", email.Counter);
+            ex.Data.Add("Id", email.Id);
             throw;
         }
 

@@ -108,3 +108,35 @@ X-API-Key: {{ApiKey}}
 {
   "BatchId": "{{batchId}}"
 }
+
+### Send Emails For Batch ID
+POST {{HostAddress}}/addToBatch
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
+{
+  "BatchId": "11111111-0000-0000-0000-000000000001",
+  "Emails": [
+    {
+      "from": "test.from@example.net",
+      "recipients": [
+        "test1@example.com"
+      ],
+      "copyRecipients": [],
+      "subject": "Test Email 1",
+      "body": "<h1>Test Email 1</h1><p>HTML content for email 1</p>",
+      "isHtml": true
+    }
+  ]
+}
+
+### List status for returned batch ID
+POST {{HostAddress}}/batch-status/
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
+{
+  "BatchId": "11111111-0000-0000-0000-000000000001"
+}
