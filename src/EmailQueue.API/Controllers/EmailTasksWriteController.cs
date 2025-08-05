@@ -25,7 +25,7 @@ public class EmailTasksWriteController(IQueueService queueService) : ControllerB
     }
 
     [HttpPost]
-    [Route("addToBatch")]
+    [Route("add-to-batch")]
     public async Task<IResult> EnqueueEmailsForBatchAsync([FromBody] EmailsForBatchRequest request)
     {
         if (request.Emails.Length == 0) return Results.Ok(EnqueueEmailsResult.Empty(request.BatchId));

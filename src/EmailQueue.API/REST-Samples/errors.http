@@ -37,7 +37,7 @@ X-API-Key: {{ApiKey}}
 []
 
 ### POST (HTTP 401 Unauthorized) invalid Client ID
-POST {{HostAddress}}/addToBatch
+POST {{HostAddress}}/add-to-batch
 Content-Type: application/json
 X-Client-Id: {{InvalidClientId}}
 X-API-Key: {{ApiKey}}
@@ -71,7 +71,7 @@ X-API-Key: {{InvalidApiKey}}
 []
 
 ### POST (HTTP 401 Unauthorized) incorrect API key
-POST {{HostAddress}}/addToBatch
+POST {{HostAddress}}/add-to-batch
 Content-Type: application/json
 X-Client-Id: {{ClientId}}
 X-API-Key: {{InvalidApiKey}}
@@ -401,7 +401,7 @@ X-API-Key: {{ApiKey}}
 ]
 
 ### (HTTP 400 Bad Request) missing "batchId" field
-POST {{HostAddress}}/addToBatch
+POST {{HostAddress}}/add-to-batch
 Content-Type: application/json
 X-Client-Id: {{ClientId}}
 X-API-Key: {{ApiKey}}
@@ -422,7 +422,7 @@ X-API-Key: {{ApiKey}}
 }
 
 ### (HTTP 400 Bad Request) Empty "batchId" field
-POST {{HostAddress}}/addToBatch
+POST {{HostAddress}}/add-to-batch
 Content-Type: application/json
 X-Client-Id: {{ClientId}}
 X-API-Key: {{ApiKey}}
@@ -444,7 +444,7 @@ X-API-Key: {{ApiKey}}
 }
 
 ### (HTTP 400 Bad Request) Null "batchId" field
-POST {{HostAddress}}/addToBatch
+POST {{HostAddress}}/add-to-batch
 Content-Type: application/json
 X-Client-Id: {{ClientId}}
 X-API-Key: {{ApiKey}}
@@ -466,7 +466,7 @@ X-API-Key: {{ApiKey}}
 }
 
 ### (HTTP 400 Bad Request) missing fields
-POST {{HostAddress}}/addToBatch
+POST {{HostAddress}}/add-to-batch
 Content-Type: application/json
 X-Client-Id: {{ClientId}}
 X-API-Key: {{ApiKey}}

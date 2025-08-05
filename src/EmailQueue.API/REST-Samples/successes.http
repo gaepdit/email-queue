@@ -110,7 +110,7 @@ X-API-Key: {{ApiKey}}
 }
 
 ### Send Emails For Batch ID
-POST {{HostAddress}}/addToBatch
+POST {{HostAddress}}/add-to-batch
 Content-Type: application/json
 X-Client-Id: {{ClientId}}
 X-API-Key: {{ApiKey}}
@@ -132,7 +132,17 @@ X-API-Key: {{ApiKey}}
 }
 
 ### List status for specified batch ID
-POST {{HostAddress}}/batch-status/
+POST {{HostAddress}}/batch-status
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
+{
+  "BatchId": "11111111-0000-0000-0000-000000000001"
+}
+
+### List status for specified batch ID
+POST {{HostAddress}}/batch-details
 Content-Type: application/json
 X-Client-Id: {{ClientId}}
 X-API-Key: {{ApiKey}}
@@ -142,7 +152,7 @@ X-API-Key: {{ApiKey}}
 }
 
 ### Post an empty array for Batch ID
-POST {{HostAddress}}/addToBatch
+POST {{HostAddress}}/add-to-batch
 Content-Type: application/json
 X-Client-Id: {{ClientId}}
 X-API-Key: {{ApiKey}}
