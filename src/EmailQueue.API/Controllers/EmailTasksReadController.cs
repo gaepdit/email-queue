@@ -2,14 +2,13 @@ using EmailQueue.API.Database;
 using EmailQueue.API.Platform;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 
 namespace EmailQueue.API.Controllers;
 
 [ApiController]
 [Route("/")]
-[Authorize(AuthenticationSchemes = nameof(SecuritySchemeType.ApiKey))]
+[Authorize(AuthenticationSchemes = nameof(ApiKeyAuthenticationHandler))]
 public class EmailTasksReadController(AppDbContext db) : ControllerBase
 {
     private Guid ClientId => User.ApiClientId();

@@ -16,6 +16,12 @@ Accept: application/json
 GET {{HostAddress}}/version
 Accept: application/json
 
+### Check API key.
+GET {{HostAddress}}/check-api
+Accept: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
 ### List all email batches
 GET {{HostAddress}}/all-batches
 Content-Type: application/json

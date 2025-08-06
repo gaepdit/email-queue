@@ -3,14 +3,13 @@ using EmailQueue.API.Platform;
 using EmailQueue.API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 
 namespace EmailQueue.API.Controllers;
 
 [ApiController]
 [Route("/")]
-[Authorize(AuthenticationSchemes = nameof(SecuritySchemeType.ApiKey))]
+[Authorize(AuthenticationSchemes = nameof(ApiKeyAuthenticationHandler))]
 public class EmailTasksWriteController(IQueueService queueService) : ControllerBase
 {
     [HttpPost]
