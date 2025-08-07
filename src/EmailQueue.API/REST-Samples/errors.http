@@ -10,6 +10,22 @@
 // ===================
 // == ERROR TESTING == 
 
+### GET Check API key: (HTTP 401 Unauthorized) missing keys
+GET {{HostAddress}}/check-api
+Accept: application/json
+
+### GET Check API key: (HTTP 401 Unauthorized) invalid Client ID
+GET {{HostAddress}}/check-api
+Accept: application/json
+X-Client-Id: {{InvalidClientId}}
+X-API-Key: {{ApiKey}}
+
+### GET Check API key: (HTTP 401 Unauthorized) invalid API key
+GET {{HostAddress}}/check-api
+Accept: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{InvalidApiKey}}
+
 ### GET (HTTP 401 Unauthorized) invalid Client ID
 GET {{HostAddress}}/all-batches
 Content-Type: application/json
@@ -36,6 +52,14 @@ X-API-Key: {{ApiKey}}
 
 []
 
+### POST (HTTP 401 Unauthorized) invalid Client ID
+POST {{HostAddress}}/add-to-batch
+Content-Type: application/json
+X-Client-Id: {{InvalidClientId}}
+X-API-Key: {{ApiKey}}
+
+[]
+
 ### GET (HTTP 401 Unauthorized) incorrect API key
 GET {{HostAddress}}/all-batches
 Content-Type: application/json
@@ -56,6 +80,14 @@ X-API-Key: {{InvalidApiKey}}
 
 ### POST (HTTP 401 Unauthorized) incorrect API key
 POST {{HostAddress}}/add
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{InvalidApiKey}}
+
+[]
+
+### POST (HTTP 401 Unauthorized) incorrect API key
+POST {{HostAddress}}/add-to-batch
 Content-Type: application/json
 X-Client-Id: {{ClientId}}
 X-API-Key: {{InvalidApiKey}}
@@ -383,3 +415,83 @@ X-API-Key: {{ApiKey}}
     "isHtml": "false"
   }
 ]
+
+### (HTTP 400 Bad Request) missing "batchId" field
+POST {{HostAddress}}/add-to-batch
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
+{
+  "Emails": [
+    {
+      "from": "test.from@example.net",
+      "recipients": [
+        "test1@example.com"
+      ],
+      "copyRecipients": [],
+      "subject": "Test Email 1",
+      "body": "<h1>Test Email 1</h1><p>HTML content for email 1</p>",
+      "isHtml": true
+    }
+  ]
+}
+
+### (HTTP 400 Bad Request) Empty "batchId" field
+POST {{HostAddress}}/add-to-batch
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
+{
+  "BatchId": "",
+  "Emails": [
+    {
+      "from": "test.from@example.net",
+      "recipients": [
+        "test1@example.com"
+      ],
+      "copyRecipients": [],
+      "subject": "Test Email 1",
+      "body": "<h1>Test Email 1</h1><p>HTML content for email 1</p>",
+      "isHtml": true
+    }
+  ]
+}
+
+### (HTTP 400 Bad Request) Null "batchId" field
+POST {{HostAddress}}/add-to-batch
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
+{
+  "BatchId": null,
+  "Emails": [
+    {
+      "from": "test.from@example.net",
+      "recipients": [
+        "test1@example.com"
+      ],
+      "copyRecipients": [],
+      "subject": "Test Email 1",
+      "body": "<h1>Test Email 1</h1><p>HTML content for email 1</p>",
+      "isHtml": true
+    }
+  ]
+}
+
+### (HTTP 400 Bad Request) missing fields
+POST {{HostAddress}}/add-to-batch
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
+{
+  "BatchId": null,
+  "Emails": [
+    {
+      "from": "test.from@example.net"
+    }
+  ]
+}

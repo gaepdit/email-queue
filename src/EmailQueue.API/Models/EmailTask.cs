@@ -66,12 +66,12 @@ public record EmailTask : NewEmailTask
             Body = resource.Body,
             IsHtml = resource.IsHtml,
         };
+}
 
-    public enum EmailStatus
-    {
-        Queued,
-        Failed,
-        Skipped,
-        Sent,
-    }
+public enum EmailStatus
+{
+    Queued,
+    Failed,
+    Skipped,
+    Sent,
 }

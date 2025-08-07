@@ -16,6 +16,12 @@ Accept: application/json
 GET {{HostAddress}}/version
 Accept: application/json
 
+### Check API key.
+GET {{HostAddress}}/check-api
+Accept: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
 ### List all email batches
 GET {{HostAddress}}/all-batches
 Content-Type: application/json
@@ -107,4 +113,57 @@ X-API-Key: {{ApiKey}}
 
 {
   "BatchId": "{{batchId}}"
+}
+
+### Send Emails For Batch ID
+POST {{HostAddress}}/add-to-batch
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
+{
+  "BatchId": "11111111-0000-0000-0000-000000000001",
+  "Emails": [
+    {
+      "from": "test.from@example.net",
+      "recipients": [
+        "test1@example.com"
+      ],
+      "copyRecipients": [],
+      "subject": "Test Email 1",
+      "body": "<h1>Test Email 1</h1><p>HTML content for email 1</p>",
+      "isHtml": true
+    }
+  ]
+}
+
+### List status for specified batch ID
+POST {{HostAddress}}/batch-status
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
+{
+  "BatchId": "11111111-0000-0000-0000-000000000001"
+}
+
+### List status for specified batch ID
+POST {{HostAddress}}/batch-details
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
+{
+  "BatchId": "11111111-0000-0000-0000-000000000001"
+}
+
+### Post an empty array for Batch ID
+POST {{HostAddress}}/add-to-batch
+Content-Type: application/json
+X-Client-Id: {{ClientId}}
+X-API-Key: {{ApiKey}}
+
+{
+  "BatchId": "11111111-0000-0000-0000-000000000001",
+  "Emails": []
 }

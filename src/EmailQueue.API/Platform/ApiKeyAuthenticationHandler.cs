@@ -8,12 +8,9 @@ namespace EmailQueue.API.Platform;
 
 internal static class AuthenticationHandlerExtensions
 {
-    public static void AddApiKeyAuthentication(this IServiceCollection services)
-    {
-        services.AddAuthentication(nameof(SecuritySchemeType.ApiKey))
-            .AddScheme<AuthenticationSchemeOptions, ApiKeyAuthenticationHandler>(nameof(SecuritySchemeType.ApiKey),
-                null);
-    }
+    public static void AddApiKeyAuthentication(this IServiceCollection services) => services
+        .AddAuthentication(nameof(ApiKeyAuthenticationHandler))
+        .AddScheme<AuthenticationSchemeOptions, ApiKeyAuthenticationHandler>(nameof(ApiKeyAuthenticationHandler), null);
 }
 
 public class ApiKeyAuthenticationHandler(

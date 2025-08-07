@@ -10,7 +10,7 @@ using System.Security.Claims;
 namespace EmailQueue.API.Tests;
 
 [TestFixture]
-public class WriteControllerTests
+public class WriteControllerAddTests
 {
     [Test]
     public async Task EmptyTaskList_ReturnsEmptyResult()
@@ -26,7 +26,7 @@ public class WriteControllerTests
         using var scope = new AssertionScope();
 
         result.Should().BeOfType<Ok<EnqueueEmailsResult>>();
-        ((Ok<EnqueueEmailsResult>)result).Value.Should().Be(EnqueueEmailsResult.Empty);
+        ((Ok<EnqueueEmailsResult>)result).Value.Should().Be(EnqueueEmailsResult.Empty());
     }
 
     [Test]
@@ -46,7 +46,7 @@ public class WriteControllerTests
         var batchId = Guid.NewGuid();
 
         var queueServiceMock = Substitute.For<IQueueService>();
-        queueServiceMock.EnqueueItems(Arg.Any<NewEmailTask[]>(), Arg.Any<string>(), Arg.Any<Guid>())
+        queueServiceMock.EnqueueEmailsAsync(Arg.Any<NewEmailTask[]>(), Arg.Any<string>(), Arg.Any<Guid>())
             .Returns(batchId);
 
         var controller = new EmailTasksWriteController(queueServiceMock)
