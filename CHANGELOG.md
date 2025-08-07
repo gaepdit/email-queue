@@ -1,5 +1,9 @@
 # Changelog
 
+## [2025.8.7] - 2025-06-25
+
+- Added three new API endpoints: `/version`, `/check-api`, and `/add-to-batch`. See the Readme file for details.
+
 ## [2025.6.25] - 2025-06-25
 
 - Added a field to save the reason for email failures.
@@ -8,5 +12,6 @@
 
 First production version.
 
+[2025.8.7]: https://github.com/gaepdit/email-queue/releases/tag/v2025.8.7
 [2025.6.25]: https://github.com/gaepdit/email-queue/releases/tag/v2025.6.25
 [2025.6.12]: https://github.com/gaepdit/email-queue/releases/tag/v2025.6.12
