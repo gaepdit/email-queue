@@ -48,12 +48,12 @@ public class EmailProcessorService(
         try
         {
             message = Message.Create(subject: email.Subject,
-                recipients: email.Recipients,
+                recipients: email.Recipients.Distinct().ToArray(),
                 textBody: email.IsHtml ? null : email.Body,
                 htmlBody: email.IsHtml ? email.Body : null,
                 senderName: email.FromName,
                 senderEmail: email.From,
-                copyRecipients: email.CopyRecipients);
+                copyRecipients: email.CopyRecipients?.Distinct());
         }
         catch (Exception ex)
         {
