@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <Version>2025.8.7</Version>
+        <Version>2025.11.18</Version>
     </PropertyGroup>
 
     <ItemGroup>
