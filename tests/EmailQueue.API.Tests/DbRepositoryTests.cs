@@ -10,18 +10,16 @@ public class DbRepositoryTests
     private AppDbContext _db;
 
     private static EmailTask CreateEmailTask(Guid batchId, Guid clientId, int counter = 1) =>
-        EmailTask.Create(
-            new NewEmailTask
-            {
-                From = "test-from@example.com",
-                FromName = "From Name",
-                Recipients = ["test-to@example.com"],
-                CopyRecipients = ["test-copy@example.net"],
-                Subject = "Test Subject",
-                Body = "Test Body",
-                IsHtml = false,
-            },
-            batchId: batchId, clientName: "Test Client", clientId: clientId, counter: counter);
+        EmailTask.Create(new NewEmailTask
+        {
+            From = "test-from@example.com",
+            FromName = "From Name",
+            Recipients = ["test-to@example.com"],
+            CopyRecipients = ["test-copy@example.net"],
+            Subject = "Subject",
+            Body = "Body",
+            IsHtml = false,
+        }, batchId: batchId, clientName: "Test Client", clientId: clientId, counter: counter);
 
     [SetUp]
     public void Setup()

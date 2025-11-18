@@ -58,11 +58,15 @@ public record EmailTask : NewEmailTask
             Counter = counter,
             ClientName = clientName,
             ClientId = clientId,
-            From = resource.From,
-            FromName = resource.FromName,
-            Recipients = resource.Recipients,
-            CopyRecipients = resource.CopyRecipients,
-            Subject = resource.Subject,
+            From = resource.From.Trim(),
+            FromName = resource.FromName?.Trim(),
+            Recipients = resource.Recipients
+                .Where(r => !string.IsNullOrWhiteSpace(r))
+                .Select(r => r.Trim()).Distinct().ToList(),
+            CopyRecipients = resource.CopyRecipients?
+                .Where(r => !string.IsNullOrWhiteSpace(r))
+                .Select(r => r.Trim()).Distinct().ToList(),
+            Subject = resource.Subject.Trim(),
             Body = resource.Body,
             IsHtml = resource.IsHtml,
         };
