@@ -11,17 +11,17 @@
 // == ERROR TESTING == 
 
 ### GET Check API key: (HTTP 401 Unauthorized) missing keys
-GET {{HostAddress}}/check-api
+GET {{HostAddress}}/check-api-auth
 Accept: application/json
 
 ### GET Check API key: (HTTP 401 Unauthorized) invalid Client ID
-GET {{HostAddress}}/check-api
+GET {{HostAddress}}/check-api-auth
 Accept: application/json
 X-Client-Id: {{InvalidClientId}}
 X-API-Key: {{ApiKey}}
 
 ### GET Check API key: (HTTP 401 Unauthorized) invalid API key
-GET {{HostAddress}}/check-api
+GET {{HostAddress}}/check-api-auth
 Accept: application/json
 X-Client-Id: {{ClientId}}
 X-API-Key: {{InvalidApiKey}}
