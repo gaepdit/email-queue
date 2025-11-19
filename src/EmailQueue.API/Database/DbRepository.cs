@@ -25,6 +25,14 @@ internal static class DbRepository
             .Select(t => new EmailTaskStatusView(t))
             .ToListAsync();
 
+    public static async Task<List<EmailTaskStatusView>> GetBatchFailedItemsAsync(this AppDbContext db, Guid clientId,
+        Guid batchId) =>
+        await QueryByClientId(db, clientId)
+            .Where(t => t.BatchId == batchId && t.Status == nameof(EmailStatus.Failed))
+            .OrderBy(t => t.CreatedAt)
+            .Select(t => new EmailTaskStatusView(t))
+            .ToListAsync();
+
     public static async Task<BatchStatusView?> GetBatchStatusAsync(this AppDbContext db, Guid clientId, Guid batchId) =>
         await QueryByClientId(db, clientId)
             .Where(t => t.BatchId == batchId)
