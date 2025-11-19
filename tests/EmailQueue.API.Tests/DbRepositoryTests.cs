@@ -93,6 +93,35 @@ public class DbRepositoryTests
     }
 
     [Test]
+    public async Task GetBatchFailedItems_ShouldReturnFailedItems()
+    {
+        // Arrange
+        var batchId = Guid.NewGuid();
+        var clientId = Guid.NewGuid();
+
+        var queuedEmailTask = CreateEmailTask(batchId, clientId);
+
+        var sentEmailTask = CreateEmailTask(batchId, clientId);
+        sentEmailTask.MarkAsSent();
+
+        var skippedEmailTask = CreateEmailTask(batchId, clientId);
+        skippedEmailTask.MarkAsSkipped();
+
+        var failedEmailTask = CreateEmailTask(batchId, clientId);
+        failedEmailTask.MarkAsFailed(string.Empty);
+
+        await _db.SaveBatchAsync(sentEmailTask, queuedEmailTask, skippedEmailTask, failedEmailTask);
+
+        // Act
+        var result = await _db.GetBatchFailedItemsAsync(clientId, batchId);
+
+        // Assert
+        using var scope = new AssertionScope();
+        result.Should().ContainSingle();
+        result.Should().OnlyContain(e => e.Status == nameof(EmailStatus.Failed));
+    }
+
+    [Test]
     public async Task GivenEmptyDatabase_GetMaxCounter_ShouldReturnZero()
     {
         // Act

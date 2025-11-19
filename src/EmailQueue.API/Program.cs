@@ -23,8 +23,10 @@ await app.BuildDatabaseAsync();
 
 app.MapGet("/health", () => Results.Ok("OK"));
 app.MapGet("/version", () => Results.Ok(new { AppSettings.Version }));
-app.MapGet("/check-api",
-    [Authorize(AuthenticationSchemes = nameof(ApiKeyAuthenticationHandler))]
-    () => Results.Ok("OK"));
+app.MapGet("/check-api-auth", CheckApiAuth);
 
 await app.RunAsync();
+return;
+
+[Authorize(AuthenticationSchemes = nameof(ApiKeyAuthenticationHandler))]
+static IResult CheckApiAuth() => Results.Ok("Auth OK");
