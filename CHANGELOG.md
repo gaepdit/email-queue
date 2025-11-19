@@ -1,5 +1,9 @@
 # Changelog
 
+## [2025.11.19] - 2025-11-19
+
+- Added a new endpoint, `/batch-failures`, to return details on only the failed items from a batch.
+
 ## [2025.11.18] - 2025-11-18
 
 - Recipients (including CC recipients) are trimmed and filtered for duplicates.
@@ -23,3 +27,5 @@ First production version.
 [2025.8.7]: https://github.com/gaepdit/email-queue/releases/tag/v2025.8.7
 
 [2025.11.18]: https://github.com/gaepdit/email-queue/releases/tag/v2025.11.18
+
+[2025.11.19]: https://github.com/gaepdit/email-queue/releases/tag/v2025.11.19

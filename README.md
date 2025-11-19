@@ -30,7 +30,8 @@ Configure the delay in seconds between processing each email.
 
 ### Security
 
-All API endpoints require authentication using a Client ID passed in the `X-Client-ID` header and an API Key passed in
+All API endpoints (except as noted below) require authentication using a Client ID passed in the `X-Client-ID` header
+and an API Key passed in
 the `X-API-Key` header with each request.
 
 Valid API clients are configured in `appsettings.json`:
@@ -48,6 +49,20 @@ Valid API clients are configured in `appsettings.json`:
 ```
 
 The Client Name and ID fields are saved in the database with each email record.
+
+### API Application Information Endpoints
+
+#### GET `/health` *Authentication not required*
+
+Returns "OK" if the API is running.
+
+#### GET `/version` *Authentication not required*
+
+Returns the application version number.
+
+#### GET `/check-api-auth`
+
+Returns "Auth OK" if the provided authentication credentials are valid.
 
 ### API Email Creation Endpoints
 
@@ -153,15 +168,7 @@ If no email tasks are submitted, the following response will be returned:
 }
 ```
 
-### API Information Endpoints
-
-#### GET `/health`
-
-Returns OK if the API is running.
-
-#### GET `/version`
-
-Returns the application version number.
+### API Email Information Endpoints
 
 #### GET `/all-batches`
 
@@ -211,7 +218,7 @@ Response format:
 
 #### POST `/batch-details`
 
-Returns the status of each email task for a specific Batch ID, ordered by creation date ascending.
+Returns details of each email task for a specific Batch ID, ordered by creation date ascending.
 
 Request body:
 
@@ -241,6 +248,11 @@ Response format:
   }
 ]
 ```
+
+#### POST `/batch-failures`
+
+Returns details of each failed email task for a specific Batch ID, ordered by creation date ascending. Request body and
+response format are the same as `batch-details` above.
 
 ---
 
