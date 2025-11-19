@@ -15,18 +15,22 @@ public class EmailTasksReadController(AppDbContext db) : ControllerBase
 
     [HttpGet("all-batches")]
     public async Task<IResult> GetAllBatchesAsync() =>
-        Results.Ok(await db.GetAllBatchesAsync(ClientId));
+        TypedResults.Ok(await db.GetAllBatchesAsync(ClientId));
 
     [HttpPost("batch-details")]
     public async Task<IResult> GetBatchDetailsAsync([FromBody] BatchRequest request) =>
-        Results.Ok(await db.GetBatchDetailsAsync(ClientId, request.BatchId));
+        TypedResults.Ok(await db.GetBatchDetailsAsync(ClientId, request.BatchId));
 
     [HttpPost("batch-status")]
     public async Task<IResult> GetBatchStatusAsync([FromBody] BatchRequest request)
     {
         var status = await db.GetBatchStatusAsync(ClientId, request.BatchId);
-        return status is null ? Results.NotFound("Batch ID not found.") : Results.Ok(status);
+        return status is null ? TypedResults.NotFound("Batch ID not found.") : TypedResults.Ok(status);
     }
+
+    [HttpPost("batch-failures")]
+    public async Task<IResult> GetBatchFailedItemsAsync([FromBody] BatchRequest request) =>
+        TypedResults.Ok(await db.GetBatchFailedItemsAsync(ClientId, request.BatchId));
 }
 
 public record BatchRequest([property: JsonRequired] Guid BatchId);

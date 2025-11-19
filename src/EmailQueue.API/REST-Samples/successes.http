@@ -17,8 +17,8 @@ GET {{HostAddress}}/version
 Accept: application/json
 
 ### Check API key.
-GET {{HostAddress}}/check-api
-Accept: application/json
+GET {{HostAddress}}/check-api-auth
+Content-Type: application/json
 X-Client-Id: {{ClientId}}
 X-API-Key: {{ApiKey}}
 
@@ -147,7 +147,7 @@ X-API-Key: {{ApiKey}}
   "BatchId": "11111111-0000-0000-0000-000000000001"
 }
 
-### List status for specified batch ID
+### List details for specified batch ID
 POST {{HostAddress}}/batch-details
 Content-Type: application/json
 X-Client-Id: {{ClientId}}

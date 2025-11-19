@@ -16,23 +16,23 @@ public class EmailTasksWriteController(IQueueService queueService) : ControllerB
     [Route("add")]
     public async Task<IResult> EnqueueEmailsAsync([FromBody] NewEmailTask[] emailTasks)
     {
-        if (emailTasks.Length == 0) return Results.Ok(EnqueueEmailsResult.Empty());
+        if (emailTasks.Length == 0) return TypedResults.Ok(EnqueueEmailsResult.Empty());
 
         var batchId = await queueService.EnqueueEmailsAsync(emailTasks, User.ApiClientName(), User.ApiClientId());
 
-        return Results.Ok(EnqueueEmailsResult.Success(emailTasks.Length, batchId));
+        return TypedResults.Ok(EnqueueEmailsResult.Success(emailTasks.Length, batchId));
     }
 
     [HttpPost]
     [Route("add-to-batch")]
     public async Task<IResult> EnqueueEmailsForBatchAsync([FromBody] EmailsForBatchRequest request)
     {
-        if (request.Emails.Length == 0) return Results.Ok(EnqueueEmailsResult.Empty(request.BatchId));
+        if (request.Emails.Length == 0) return TypedResults.Ok(EnqueueEmailsResult.Empty(request.BatchId));
 
         await queueService.EnqueueEmailsForBatchAsync(request.BatchId, request.Emails, User.ApiClientName(),
             User.ApiClientId());
 
-        return Results.Ok(EnqueueEmailsResult.Success(request.Emails.Length, request.BatchId));
+        return TypedResults.Ok(EnqueueEmailsResult.Success(request.Emails.Length, request.BatchId));
     }
 }
 
