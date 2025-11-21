@@ -34,7 +34,7 @@ public class QueueService(IServiceScopeFactory scopeFactory, ILogger<QueueServic
             _signal.Release();
         }
 
-        logger.LogInformation("Initialized queue with {Count} pending tasks from database", pendingTasks.Count);
+        logger.ZLogInformation($"Initialized queue with {pendingTasks.Count} pending tasks from database");
     }
 
     public async Task<Guid> EnqueueEmailsAsync(NewEmailTask[] newEmailTasks, string clientName, Guid clientId)
@@ -70,7 +70,7 @@ public class QueueService(IServiceScopeFactory scopeFactory, ILogger<QueueServic
             _signal.Release();
         }
 
-        logger.LogInformation("Enqueued {Count} new email tasks", emailTasksList.Length);
+        logger.ZLogInformation($"Enqueued {emailTasksList.Length:@Count} new email tasks");
     }
 
     public async Task<EmailTask?> DequeueAsync(CancellationToken cancellationToken)

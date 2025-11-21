@@ -18,13 +18,13 @@ public class EmailProcessorService(
 {
     public async Task ProcessEmailAsync(EmailTask email)
     {
-        logger.LogInformation("Processing email: {Counter} (at {TimeStamp})", email.Counter, DateTime.UtcNow);
+        logger.ZLogInformation($"Processing email: {email.Counter} (at {DateTime.UtcNow:@TimeStamp})");
 
         // Get a fresh instance of the task that is tracked by this context.
         var dbTask = await dbContext.EmailTasks.FindAsync(email.Id);
         if (dbTask == null)
         {
-            logger.LogError("Email {Id} not found in database: {Counter}", email.Id, email.Counter);
+            logger.ZLogError($"Email {email.Id} not found in database: {email.Counter}");
             return;
         }
 
@@ -32,7 +32,7 @@ public class EmailProcessorService(
         {
             dbTask.MarkAsSkipped();
             await dbContext.SaveChangesAsync();
-            logger.LogWarning("Emailing is not enabled on the server");
+            logger.ZLogWarning($"Emailing is not enabled on the server");
             return;
         }
 
@@ -40,7 +40,7 @@ public class EmailProcessorService(
         {
             dbTask.MarkAsFailed("No recipients specified");
             await dbContext.SaveChangesAsync();
-            logger.LogWarning("No recipient specified: {Counter}", email.Counter);
+            logger.ZLogWarning($"No recipient specified: {email.Counter}", email.Counter);
             return;
         }
 
@@ -79,6 +79,6 @@ public class EmailProcessorService(
 
         dbTask.MarkAsSent();
         await dbContext.SaveChangesAsync();
-        logger.LogInformation("Successfully sent email task: {Counter}", email.Counter);
+        logger.ZLogInformation($"Successfully sent email task: {email.Counter}");
     }
 }
