@@ -12,7 +12,7 @@ public class QueueBackgroundService(
     {
         // Initialize the queue with pending tasks from the database.
         await queueService.InitializeQueueFromDatabaseAsync();
-        logger.LogInformation("DataProcessorService started and queue initialized.");
+        logger.ZLogInformation($"DataProcessorService started and queue initialized.");
         await base.StartAsync(cancellationToken);
     }
 
@@ -31,8 +31,8 @@ public class QueueBackgroundService(
                     await emailService.ProcessEmailAsync(emailTask);
                 }
 
-                logger.LogInformation("Waiting {Delay} seconds before processing next task",
-                    AppSettings.QueueSettings.ProcessingDelaySeconds);
+                logger.ZLogInformation(
+                    $"Waiting {AppSettings.QueueSettings.ProcessingDelaySeconds:@Delay} seconds before processing next task");
                 await Task.Delay(TimeSpan.FromSeconds(AppSettings.QueueSettings.ProcessingDelaySeconds),
                     stoppingToken);
             }
@@ -42,8 +42,9 @@ public class QueueBackgroundService(
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Failed to send email task {Counter} ({Id})",
-                    ex.Data["Counter"] ?? "Unknown Counter", ex.Data["Id"] ?? "Unknown Id");
+                var counter = ex.Data["Counter"]?.ToString() ?? "Unknown Counter";
+                var id = ex.Data["Id"]?.ToString() ?? "Unknown Id";
+                logger.ZLogError(ex, $"Failed to send email task {counter} ({id})");
             }
         }
     }

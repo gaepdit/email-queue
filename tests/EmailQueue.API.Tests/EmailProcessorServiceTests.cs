@@ -6,6 +6,7 @@ using GaEpd.EmailService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using ZLogger.LogStates;
 
 namespace EmailQueue.API.Tests;
 
@@ -34,6 +35,8 @@ public class EmailProcessorServiceTests
         _dbContext = new AppDbContext(options);
 
         _logger = Substitute.For<ILogger<EmailProcessorService>>();
+        _logger.IsEnabled(Arg.Any<LogLevel>()).Returns(true);
+
         _sut = new EmailProcessorService(_emailService, _dbContext, _logger);
 
         _emailTask = CreateEmailTask();
@@ -78,8 +81,10 @@ public class EmailProcessorServiceTests
 
         // Assert
         using var scope = new AssertionScope();
-        _logger.Received().Log(LogLevel.Warning, Arg.Any<EventId>(), Arg.Any<object>(), null,
-            Arg.Any<Func<object, Exception?, string>>());
+        _logger.Received(1).Log(LogLevel.Information, Arg.Any<EventId>(), Arg.Any<VersionedLogState>(), null,
+            Arg.Any<Func<VersionedLogState, Exception?, string>>());
+        _logger.Received(1).Log(LogLevel.Warning, Arg.Any<EventId>(), Arg.Any<VersionedLogState>(), null,
+            Arg.Any<Func<VersionedLogState, Exception?, string>>());
         await _emailService.DidNotReceive().SendEmailAsync(Arg.Any<Message>());
     }
 
@@ -93,8 +98,10 @@ public class EmailProcessorServiceTests
         await _sut.ProcessEmailAsync(nonExistentEmailTask);
 
         // Assert
-        _logger.Received().Log(LogLevel.Error, Arg.Any<EventId>(), Arg.Any<object>(), null,
-            Arg.Any<Func<object, Exception?, string>>());
+        _logger.Received(1).Log(LogLevel.Information, Arg.Any<EventId>(), Arg.Any<VersionedLogState>(), null,
+            Arg.Any<Func<VersionedLogState, Exception?, string>>());
+        _logger.Received(1).Log(LogLevel.Error, Arg.Any<EventId>(), Arg.Any<VersionedLogState>(), null,
+            Arg.Any<Func<VersionedLogState, Exception?, string>>());
         await _emailService.DidNotReceive().SendEmailAsync(Arg.Any<Message>());
     }
 
@@ -112,8 +119,10 @@ public class EmailProcessorServiceTests
 
         // Assert
         emailTask.Status.Should().Be("Failed");
-        _logger.Received().Log(LogLevel.Warning, Arg.Any<EventId>(), Arg.Any<object>(), null,
-            Arg.Any<Func<object, Exception?, string>>());
+        _logger.Received(1).Log(LogLevel.Information, Arg.Any<EventId>(), Arg.Any<VersionedLogState>(), null,
+            Arg.Any<Func<VersionedLogState, Exception?, string>>());
+        _logger.Received(1).Log(LogLevel.Warning, Arg.Any<EventId>(), Arg.Any<VersionedLogState>(), null,
+            Arg.Any<Func<VersionedLogState, Exception?, string>>());
         await _emailService.DidNotReceive().SendEmailAsync(Arg.Any<Message>());
     }
 
@@ -140,6 +149,7 @@ public class EmailProcessorServiceTests
         await _sut.ProcessEmailAsync(_emailTask);
 
         // Assert
+        using var scope = new AssertionScope();
         _emailTask.Status.Should().Be("Sent");
         await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m =>
             m.SenderEmail == _emailTask.From &&
@@ -149,8 +159,8 @@ public class EmailProcessorServiceTests
             m.Subject == _emailTask.Subject &&
             m.TextBody == _emailTask.Body &&
             m.HtmlBody == null));
-        _logger.Received().Log(LogLevel.Information, Arg.Any<EventId>(), Arg.Any<object>(), null,
-            Arg.Any<Func<object, Exception?, string>>());
+        _logger.Received(2).Log(LogLevel.Information, Arg.Any<EventId>(), Arg.Any<VersionedLogState>(), null,
+            Arg.Any<Func<VersionedLogState, Exception?, string>>());
     }
 
     [Test]
@@ -176,7 +186,7 @@ public class EmailProcessorServiceTests
     {
         // Arrange
 
-        // Create email task with empty "From Name" property. 
+        // Create an email task with empty "From Name" property. 
         var emailTask = EmailTask.Create(CreateEmailTask() with { FromName = string.Empty },
             batchId: Guid.NewGuid(), clientName: "Test Client", clientId: Guid.NewGuid(), counter: 1);
         _dbContext.EmailTasks.Add(emailTask);

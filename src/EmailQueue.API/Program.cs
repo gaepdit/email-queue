@@ -6,6 +6,13 @@ using Mindscape.Raygun4Net.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders().AddZLoggerConsole(options =>
+{
+    if (builder.Environment.IsDevelopment())
+        options.UsePlainTextFormatter();
+    else
+        options.UseJsonFormatter();
+});
 builder.BindAppSettings();
 builder.ConfigureRaygunLogging();
 builder.Services.AddControllers();

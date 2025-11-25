@@ -17,6 +17,7 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
         <PackageReference Include="Mindscape.Raygun4Net.AspNetCore" />
         <PackageReference Include="Mindscape.Raygun4Net.Extensions.Logging" />
+        <PackageReference Include="ZLogger"/>
     </ItemGroup>
 
     <ItemGroup>
