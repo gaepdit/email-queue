@@ -30,9 +30,10 @@ public class EmailProcessorService(
 
         if (AppSettings.EmailServiceSettings is { EnableEmail: false, EnableEmailAuditing: false })
         {
-            dbTask.MarkAsSkipped();
+            const string skippedMessage = "Emailing is not enabled on the server";
+            dbTask.MarkAsSkipped(skippedMessage);
             await dbContext.SaveChangesAsync();
-            logger.ZLogWarning($"Emailing is not enabled on the server");
+            logger.ZLogWarning($"{skippedMessage}");
             return;
         }
 

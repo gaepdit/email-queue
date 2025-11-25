@@ -105,7 +105,7 @@ public class DbRepositoryTests
         sentEmailTask.MarkAsSent();
 
         var skippedEmailTask = CreateEmailTask(batchId, clientId);
-        skippedEmailTask.MarkAsSkipped();
+        skippedEmailTask.MarkAsSkipped(string.Empty);
 
         var failedEmailTask = CreateEmailTask(batchId, clientId);
         failedEmailTask.MarkAsFailed(string.Empty);
@@ -159,7 +159,7 @@ public class DbRepositoryTests
         sentEmailTask.MarkAsSent();
 
         var skippedEmailTask = CreateEmailTask(Guid.NewGuid(), clientId);
-        skippedEmailTask.MarkAsSkipped();
+        skippedEmailTask.MarkAsSkipped(string.Empty);
 
         var failedEmailTask = CreateEmailTask(Guid.NewGuid(), clientId);
         failedEmailTask.MarkAsFailed(string.Empty);
