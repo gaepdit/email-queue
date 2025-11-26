@@ -31,23 +31,15 @@ public record EmailTask : NewEmailTask
     public DateTime? AttemptedAt { get; private set; }
 
     // Methods
-    public void MarkAsSent()
-    {
-        Status = nameof(EmailStatus.Sent);
-        AttemptedAt = DateTime.UtcNow;
-    }
+    public void MarkAsSent() => MarkAsComplete(nameof(EmailStatus.Sent));
+    public void MarkAsFailed(string? reason) => MarkAsComplete(nameof(EmailStatus.Failed), reason);
+    public void MarkAsSkipped(string? reason) => MarkAsComplete(nameof(EmailStatus.Skipped), reason);
 
-    public void MarkAsFailed(string? reason)
+    private void MarkAsComplete(string status, string? reason = null)
     {
-        Status = nameof(EmailStatus.Failed);
+        Status = status;
         AttemptedAt = DateTime.UtcNow;
-        FailureReason = reason.Truncate(200);
-    }
-
-    public void MarkAsSkipped()
-    {
-        Status = nameof(EmailStatus.Skipped);
-        AttemptedAt = DateTime.UtcNow;
+        FailureReason = reason?.Truncate(200);
     }
 
     public static EmailTask Create(NewEmailTask resource, Guid batchId, string clientName, Guid clientId,

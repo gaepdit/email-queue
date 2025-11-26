@@ -6,6 +6,7 @@ using GaEpd.EmailService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Net.Sockets;
 using ZLogger.LogStates;
 
 namespace EmailQueue.API.Tests;
@@ -98,6 +99,7 @@ public class EmailProcessorServiceTests
         await _sut.ProcessEmailAsync(nonExistentEmailTask);
 
         // Assert
+        using var scope = new AssertionScope();
         _logger.Received(1).Log(LogLevel.Information, Arg.Any<EventId>(), Arg.Any<VersionedLogState>(), null,
             Arg.Any<Func<VersionedLogState, Exception?, string>>());
         _logger.Received(1).Log(LogLevel.Error, Arg.Any<EventId>(), Arg.Any<VersionedLogState>(), null,
@@ -118,6 +120,7 @@ public class EmailProcessorServiceTests
         await _sut.ProcessEmailAsync(emailTask);
 
         // Assert
+        using var scope = new AssertionScope();
         emailTask.Status.Should().Be("Failed");
         _logger.Received(1).Log(LogLevel.Information, Arg.Any<EventId>(), Arg.Any<VersionedLogState>(), null,
             Arg.Any<Func<VersionedLogState, Exception?, string>>());
@@ -127,19 +130,24 @@ public class EmailProcessorServiceTests
     }
 
     [Test]
-    public async Task ProcessEmailAsync_WhenSendEmailFails_MarksAsFailedAndThrows()
+    public async Task ProcessEmailAsync_WhenSendEmailFails_MarksAsFailedAndLogsError()
     {
         // Arrange
-        var expectedException = new Exception("Send failed");
+        var expectedException = new SocketException((int)SocketError.ConnectionRefused, "Testing failed connection");
         _emailService.When(x => x.SendEmailAsync(Arg.Any<Message>()))
             .Throw(expectedException);
 
         // Act
-        var func = () => _sut.ProcessEmailAsync(_emailTask);
+        await _sut.ProcessEmailAsync(_emailTask);
 
         // Assert
-        await func.Should().ThrowAsync<Exception>();
+        using var scope = new AssertionScope();
         _emailTask.Status.Should().Be("Failed");
+        _logger.Received(1).Log(LogLevel.Information, Arg.Any<EventId>(), Arg.Any<VersionedLogState>(), null,
+            Arg.Any<Func<VersionedLogState, Exception?, string>>());
+        _logger.Received(1).Log(LogLevel.Error, Arg.Any<EventId>(), Arg.Any<VersionedLogState>(), expectedException,
+            Arg.Any<Func<VersionedLogState, Exception?, string>>());
+        await _emailService.Received(1).SendEmailAsync(Arg.Any<Message>());
     }
 
     [Test]

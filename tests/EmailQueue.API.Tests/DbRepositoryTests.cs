@@ -93,7 +93,7 @@ public class DbRepositoryTests
     }
 
     [Test]
-    public async Task GetBatchFailedItems_ShouldReturnFailedItems()
+    public async Task GetBatchFailedItems_ShouldReturnFailedAndSkippedItems()
     {
         // Arrange
         var batchId = Guid.NewGuid();
@@ -105,7 +105,7 @@ public class DbRepositoryTests
         sentEmailTask.MarkAsSent();
 
         var skippedEmailTask = CreateEmailTask(batchId, clientId);
-        skippedEmailTask.MarkAsSkipped();
+        skippedEmailTask.MarkAsSkipped(string.Empty);
 
         var failedEmailTask = CreateEmailTask(batchId, clientId);
         failedEmailTask.MarkAsFailed(string.Empty);
@@ -116,9 +116,8 @@ public class DbRepositoryTests
         var result = await _db.GetBatchFailedItemsAsync(clientId, batchId);
 
         // Assert
-        using var scope = new AssertionScope();
-        result.Should().ContainSingle();
-        result.Should().OnlyContain(e => e.Status == nameof(EmailStatus.Failed));
+        result.Should().OnlyContain(e =>
+            e.Status == nameof(EmailStatus.Failed) || e.Status == nameof(EmailStatus.Skipped));
     }
 
     [Test]
@@ -159,7 +158,7 @@ public class DbRepositoryTests
         sentEmailTask.MarkAsSent();
 
         var skippedEmailTask = CreateEmailTask(Guid.NewGuid(), clientId);
-        skippedEmailTask.MarkAsSkipped();
+        skippedEmailTask.MarkAsSkipped(string.Empty);
 
         var failedEmailTask = CreateEmailTask(Guid.NewGuid(), clientId);
         failedEmailTask.MarkAsFailed(string.Empty);

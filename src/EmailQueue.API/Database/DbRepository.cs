@@ -28,7 +28,9 @@ internal static class DbRepository
     public static async Task<List<EmailTaskStatusView>> GetBatchFailedItemsAsync(this AppDbContext db, Guid clientId,
         Guid batchId) =>
         await QueryByClientId(db, clientId)
-            .Where(t => t.BatchId == batchId && t.Status == nameof(EmailStatus.Failed))
+            .Where(t =>
+                t.BatchId == batchId &&
+                (t.Status == nameof(EmailStatus.Failed) || t.Status == nameof(EmailStatus.Skipped)))
             .OrderBy(t => t.CreatedAt)
             .Select(t => new EmailTaskStatusView(t))
             .ToListAsync();

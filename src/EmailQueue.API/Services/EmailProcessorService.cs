@@ -30,9 +30,10 @@ public class EmailProcessorService(
 
         if (AppSettings.EmailServiceSettings is { EnableEmail: false, EnableEmailAuditing: false })
         {
-            dbTask.MarkAsSkipped();
+            const string skippedMessage = "Emailing is not enabled on the server";
+            dbTask.MarkAsSkipped(skippedMessage);
             await dbContext.SaveChangesAsync();
-            logger.ZLogWarning($"Emailing is not enabled on the server");
+            logger.ZLogWarning($"{skippedMessage}");
             return;
         }
 
@@ -57,11 +58,8 @@ public class EmailProcessorService(
         }
         catch (Exception ex)
         {
-            dbTask.MarkAsFailed(ex.Message);
-            await dbContext.SaveChangesAsync();
-            ex.Data.Add("Counter", email.Counter);
-            ex.Data.Add("Id", email.Id);
-            throw;
+            await HandleEmailFailure(ex);
+            return;
         }
 
         try
@@ -70,15 +68,22 @@ public class EmailProcessorService(
         }
         catch (Exception ex)
         {
-            dbTask.MarkAsFailed(ex.Message);
-            await dbContext.SaveChangesAsync();
-            ex.Data.Add("Counter", email.Counter);
-            ex.Data.Add("Id", email.Id);
-            throw;
+            await HandleEmailFailure(ex);
+            return;
         }
 
         dbTask.MarkAsSent();
         await dbContext.SaveChangesAsync();
         logger.ZLogInformation($"Successfully sent email task: {email.Counter}");
+        return;
+
+        async Task HandleEmailFailure(Exception ex)
+        {
+            dbTask.MarkAsFailed(ex.Message);
+            await dbContext.SaveChangesAsync();
+            ex.Data.Add("Counter", email.Counter);
+            ex.Data.Add("Id", email.Id);
+            logger.ZLogError(ex, $"Error sending email: {ex.Message}");
+        }
     }
 }
