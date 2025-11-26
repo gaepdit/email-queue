@@ -4,9 +4,12 @@ namespace EmailQueue.API.Platform;
 
 internal static class ClaimsExtensions
 {
-    public static string ApiClientName(this ClaimsPrincipal user) =>
-        user.FindFirstValue(nameof(ApiClient.ClientName)) ?? throw new InvalidOperationException();
+    extension(ClaimsPrincipal user)
+    {
+        public string ApiClientName() =>
+            user.FindFirstValue(nameof(ApiClient.ClientName)) ?? throw new InvalidOperationException();
 
-    public static Guid ApiClientId(this ClaimsPrincipal user) =>
-        Guid.Parse(user.FindFirstValue(nameof(ApiClient.ClientId)) ?? throw new InvalidOperationException());
+        public Guid ApiClientId() =>
+            Guid.Parse(user.FindFirstValue(nameof(ApiClient.ClientId)) ?? throw new InvalidOperationException());
+    }
 }

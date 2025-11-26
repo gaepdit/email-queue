@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
