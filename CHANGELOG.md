@@ -1,5 +1,9 @@
 # Changelog
 
+##
+
+- Skipped emails are included in the `/batch-failures` endpoint.
+
 ## [2025.11.19] - 2025-11-19
 
 - Added a new endpoint, `/batch-failures`, to return details on only the failed items from a batch.
