@@ -83,7 +83,7 @@ public class EmailProcessorService(
             await dbContext.SaveChangesAsync();
             ex.Data.Add("Counter", email.Counter);
             ex.Data.Add("Id", email.Id);
-            logger.ZLogError($"Error sending email: {ex.Message}", ex);
+            logger.ZLogError(ex, $"Error sending email: {ex.Message}");
         }
     }
 }
