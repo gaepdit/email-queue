@@ -118,7 +118,7 @@ If no email tasks are submitted, the following response will be returned (no Bat
 }
 ```
 
-#### POST `/addToBatch`
+#### POST `/add-to-batch`
 
 Submits a batch of email tasks for processing for a specified Batch ID. (Note: The Batch ID can be one that already
 exists in the database, but it doesn't have to.)
@@ -251,8 +251,8 @@ Response format:
 
 #### POST `/batch-failures`
 
-Returns details of each failed email task for a specific Batch ID, ordered by creation date ascending. Request body and
-response format are the same as `batch-details` above.
+Returns details of each failed or skipped email task for a specific Batch ID, ordered by creation date ascending.
+Request body and response format are the same as `batch-details` above.
 
 ---
 
