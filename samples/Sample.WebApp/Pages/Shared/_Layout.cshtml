@@ -59,14 +59,9 @@
 <footer class="border-top footer text-muted">
     <div class="container"><small>
             Sample Email Batch Viewer
-            @if (!string.IsNullOrEmpty(AppSettings.InformationalVersion))
+            @if (!string.IsNullOrEmpty(AppSettings.Version))
             {
-                <span class="d-print-none">| Current version: @AppSettings.InformationalVersion
-                    @if (!string.IsNullOrEmpty(AppSettings.InformationalBuild))
-                    {
-                        <em>(@AppSettings.InformationalBuild)</em>
-                    }
-            </span>
+                <span class="d-print-none">| Current version: @AppSettings.Version</span>
             }
         </small>
     </div>

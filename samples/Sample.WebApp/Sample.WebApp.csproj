@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <InformationalVersion>2025.6.2</InformationalVersion>
+        <InformationalVersion>2026.1.15</InformationalVersion>
         <UserSecretsId>aspnet-EmailQueue.WebApp-f5c632e7-a220-4fc2-a0e0-1ee1d2d23efb</UserSecretsId>
     </PropertyGroup>
 
