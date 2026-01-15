@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/samples/">
+    <Project Path="samples/Sample.WebApp/Sample.WebApp.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/EmailQueue.API.Tests/EmailQueue.API.Tests.csproj" />
+  </Folder>
+  <Project Path="src/EmailQueue.API/EmailQueue.API.csproj" />
+</Solution>
