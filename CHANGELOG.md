@@ -3,6 +3,7 @@
 ## [2026.1.15] - 2026-01-15
 
 - Skipped emails are included in the `/batch-failures` endpoint.
+- Updated to .NET 10.
 
 ## [2025.11.19] - 2025-11-19
 
