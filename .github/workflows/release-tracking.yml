@@ -1,4 +1,4 @@
-﻿# Workflow to register a new application version with both GitHub Releases and Raygun deployment tracking.
+# Workflow to register a new application version with both GitHub Releases and Raygun deployment tracking.
 
 # The workflow is triggered when a tag in the format "v1.0.0" is pushed to GitHub.
 #
@@ -53,7 +53,7 @@ jobs:
         run: echo ${{ steps.raygun_deployment.outputs.response }}
 
       - name: Check out repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Create GitHub Release
         id: github_release
