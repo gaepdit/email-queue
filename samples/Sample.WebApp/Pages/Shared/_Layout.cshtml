@@ -1,16 +1,4 @@
 @using Sample.WebApp.Settings
-@{
-    string greeting;
-    if (User.HasClaim(claim => claim.Type == "name"))
-    {
-        var name = User.FindFirst("name")?.Value ?? "";
-        greeting = name.Contains(',') ? name.Split(',')[1] : name;
-    }
-    else
-    {
-        greeting = User.Identity?.Name?.Split('@')[0] ?? "";
-    }
-}
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
@@ -25,27 +13,7 @@
 <header>
     <nav class="navbar navbar-expand-sm bg-body-tertiary border-bottom box-shadow mb-3">
         <div class="container">
-            <span class="navbar-brand">Sample Email Batch Viewer</span>
-            <div class="navbar-collapse">
-                <ul class="navbar-nav flex-grow-1">
-                    <li><a asp-page="/AllBatches" class="nav-link">All Batches</a></li>
-                    <li><a asp-page="/BatchDetails" class="nav-link">View Batch</a></li>
-                </ul>
-                <ul class="navbar-nav">
-                    @if (User.Identity?.IsAuthenticated == true)
-                    {
-                        <li class="nav-item">
-                            <span class="navbar-text d-block">Hello, @greeting</span>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <span class="navbar-text d-block">Not signed in</span>
-                        </li>
-                    }
-                </ul>
-            </div>
+            <span class="navbar-brand"><a asp-page="/AllBatches" class="nav-link">Sample Email Batch Viewer</a></span>
         </div>
     </nav>
 </header>

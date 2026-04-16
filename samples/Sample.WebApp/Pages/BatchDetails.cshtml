@@ -5,6 +5,12 @@
     ViewData["Title"] = "Email Batch Details";
 }
 
+<h1>@ViewData["Title"]</h1>
+@if (Model.BatchId.HasValue)
+{
+    <h2 class="mb-4">Batch ID: <span class="text-info">@Model.BatchId.ToString()</span></h2>
+}
+
 @if (!string.IsNullOrEmpty(Model.NotificationMessage))
 {
     <div class="alert alert-warning" role="alert">
@@ -18,22 +24,6 @@
         @Model.ErrorMessage
     </div>
 }
-
-<div class="clearfix my-4">
-    <div class="border rounded p-3 bg-light-subtle float-start">
-        <form method="post" class="row row-cols-auto g-3 align-items-center">
-            <div class="col">
-                <label asp-for="BatchId" class="col-form-label"></label>
-            </div>
-            <div class="col">
-                <input asp-for="BatchId" class="form-control" />
-            </div>
-            <div class="col">
-                <button type="submit" class="btn btn-primary">View</button>
-            </div>
-        </form>
-    </div>
-</div>
 
 @if (Model.ShowResults)
 {
