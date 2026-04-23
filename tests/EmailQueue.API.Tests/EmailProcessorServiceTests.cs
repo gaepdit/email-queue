@@ -21,7 +21,7 @@ public class EmailProcessorServiceTests
     private EmailTask _emailTask;
 
     [SetUp]
-    public void Setup()
+    public async Task Setup()
     {
         // Set up configuration and bind settings before creating any services
         new ConfigurationBuilder()
@@ -44,14 +44,14 @@ public class EmailProcessorServiceTests
 
         // Set up the database with test data
         _dbContext.EmailTasks.Add(_emailTask);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
     }
 
     [TearDown]
-    public void TearDown()
+    public async Task TearDown()
     {
-        _dbContext.Database.EnsureDeleted();
-        _dbContext.Dispose();
+        await _dbContext.Database.EnsureDeletedAsync();
+        await _dbContext.DisposeAsync();
     }
 
     private static EmailTask CreateEmailTask() => EmailTask.Create(
