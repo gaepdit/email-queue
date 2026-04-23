@@ -14,20 +14,20 @@ internal static class DbRepository
         }
 
         public async Task<List<BatchStatusView>> GetAllBatchesAsync(Guid clientId) =>
-            await QueryByClientId(db, clientId)
+            await db.QueryByClientId(clientId)
                 .SelectBatchStatus()
                 .OrderByDescending(g => g.CreatedAt)
                 .ToListAsync();
 
         public async Task<List<EmailTaskStatusView>> GetBatchDetailsAsync(Guid clientId, Guid batchId) =>
-            await QueryByClientId(db, clientId)
+            await db.QueryByClientId(clientId)
                 .Where(t => t.BatchId == batchId)
                 .OrderBy(t => t.CreatedAt)
                 .Select(t => new EmailTaskStatusView(t))
                 .ToListAsync();
 
         public async Task<List<EmailTaskStatusView>> GetBatchFailedItemsAsync(Guid clientId, Guid batchId) =>
-            await QueryByClientId(db, clientId)
+            await db.QueryByClientId(clientId)
                 .Where(t =>
                     t.BatchId == batchId &&
                     (t.Status == nameof(EmailStatus.Failed) || t.Status == nameof(EmailStatus.Skipped)))
@@ -36,7 +36,7 @@ internal static class DbRepository
                 .ToListAsync();
 
         public async Task<BatchStatusView?> GetBatchStatusAsync(Guid clientId, Guid batchId) =>
-            await QueryByClientId(db, clientId)
+            await db.QueryByClientId(clientId)
                 .Where(t => t.BatchId == batchId)
                 .SelectBatchStatus()
                 .SingleOrDefaultAsync();

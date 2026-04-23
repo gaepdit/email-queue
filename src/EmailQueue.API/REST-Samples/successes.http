@@ -8,6 +8,10 @@
 // =====================
 // == SUCCESS TESTING == 
 
+### Connect to API
+GET {{HostAddress}}
+Accept: application/json
+
 ### Check health
 GET {{HostAddress}}/health
 Accept: application/json

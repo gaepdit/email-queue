@@ -55,10 +55,10 @@ public class ReadControllerTests
     }
 
     [TearDown]
-    public void TearDown()
+    public async Task TearDown()
     {
-        _db.Database.EnsureDeleted();
-        _db.Dispose();
+        await _db.Database.EnsureDeletedAsync();
+        await _db.DisposeAsync();
     }
 
     [Test]
