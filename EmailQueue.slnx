@@ -2,6 +2,10 @@
   <Folder Name="/samples/">
     <Project Path="samples/Sample.WebApp/Sample.WebApp.csproj" />
   </Folder>
+  <Folder Name="/Solution files/">
+    <File Path="CHANGELOG.md" />
+    <File Path="README.md" />
+  </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/EmailQueue.API.Tests/EmailQueue.API.Tests.csproj" />
   </Folder>

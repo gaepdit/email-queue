@@ -1,5 +1,9 @@
 # Changelog
 
+## [2026.4.24] - 2026-04-24
+
+- Added a DB connection check to the `/health` endpoint and added a response at the root `/` endpoint.
+
 ## [2026.4.16] - 2026-04-16
 
 - Updated NuGet packages.
@@ -35,5 +39,5 @@ First production version.
 [2025.11.18]: https://github.com/gaepdit/email-queue/releases/tag/v2025.11.18
 [2025.11.19]: https://github.com/gaepdit/email-queue/releases/tag/v2025.11.19
 [2026.1.15]: https://github.com/gaepdit/email-queue/releases/tag/v2026.1.15
-
-[2026.1.16]: https://github.com/gaepdit/email-queue/releases/tag/v2026.1.16
+[2026.4.16]: https://github.com/gaepdit/email-queue/releases/tag/v2026.4.16
+[2026.4.24]: https://github.com/gaepdit/email-queue/releases/tag/v2026.4.24
