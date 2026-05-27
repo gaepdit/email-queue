@@ -75,11 +75,16 @@ Request body: Array of email tasks.
 ```json
 [
   {
-    "from": "from.email@example.net",
+    "from": "sender.email@example.net",
+    "fromName": "Sender Name",
     "recipients": [
-      "email@example.com"
+      "recipient@example.com",
+      "Another Recipient <another.recipient@example.net>"
     ],
-    "copyRecipients": [],
+    "copyRecipients": [
+      "cc.recipient@example.com",
+      "Another CC Recipient <another.copy.recipient@example.net>"
+    ],
     "subject": "Email Subject",
     "body": "Email content",
     "isHtml": false
@@ -89,12 +94,16 @@ Request body: Array of email tasks.
 
 Each email task contains the following properties:
 
-- `from`: The return (from) email address (Required)
+- `from`: The sender's email address (Required)
+- `fromName`: The sender's name (Optional)
 - `recipients`: List of recipient email addresses (Required; may not be empty or contain any empty values)
 - `copyRecipients`: List of copied email addresses (Optional; may not contain empty values if included)
 - `subject`: Email subject line, max 200 characters (Required)
 - `body`: Email content, max 20,000 characters (Required)
 - `isHtml`: Boolean indicating if the body is formatted as HTML (Required)
+
+Note: While the sender ("from") name and email must be defined separately, the recipients (and CC recipients) can
+optionally be formatted as strings containing both name and email, i.e., `"User Name <user.name@example.com>"`.
 
 Response format if successful:
 
@@ -130,9 +139,9 @@ Request body:
   "batchId": "batchId",
   "emails": [
     {
-      "from": "from.email@example.net",
+      "from": "sender.email@example.net",
       "recipients": [
-        "email@example.com"
+        "recipient@example.com"
       ],
       "copyRecipients": [],
       "subject": "Email Subject",
