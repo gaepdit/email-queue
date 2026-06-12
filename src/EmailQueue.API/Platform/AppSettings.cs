@@ -8,17 +8,11 @@ public static class AppSettings
     public static string? Version { get; internal set; }
     public static Queue QueueSettings { get; } = new();
     public static EmailServiceSettings EmailServiceSettings { get; } = new();
-    public static Raygun RaygunSettings { get; } = new();
 
     public record Queue
     {
         public int ProcessingDelaySeconds { get; [UsedImplicitly] init; } = 5;
         // Default value of 5 seconds if not specified in config
-    }
-
-    public record Raygun
-    {
-        public string? ApiKey { get; [UsedImplicitly] init; }
     }
 }
 
@@ -32,8 +26,6 @@ public static class AppSettingsExtensions
             .Bind(AppSettings.QueueSettings);
         builder.Configuration.GetSection(nameof(AppSettings.EmailServiceSettings))
             .Bind(AppSettings.EmailServiceSettings);
-        builder.Configuration.GetSection(nameof(AppSettings.RaygunSettings))
-            .Bind(AppSettings.RaygunSettings);
     }
 
     private static string GetVersion()
