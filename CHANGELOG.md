@@ -1,5 +1,9 @@
 # Changelog
 
+## [2026.7.21] - 2026-07-21
+
+- Updated NuGet packages.
+
 ## [2026.5.4] - 2026-05-04
 
 - Email recipients (and CC recipients) can now be formatted with display names. For example,
@@ -46,5 +50,6 @@ First production version.
 [2026.1.15]: https://github.com/gaepdit/email-queue/releases/tag/v2026.1.15
 [2026.4.16]: https://github.com/gaepdit/email-queue/releases/tag/v2026.4.16
 [2026.4.24]: https://github.com/gaepdit/email-queue/releases/tag/v2026.4.24
-
 [2026.5.4]: https://github.com/gaepdit/email-queue/releases/tag/v2026.5.4
+
+[2026.7.21]: https://github.com/gaepdit/email-queue/releases/tag/v2026.7.21
