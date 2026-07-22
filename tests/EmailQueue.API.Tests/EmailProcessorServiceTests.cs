@@ -160,15 +160,17 @@ public class EmailProcessorServiceTests
         using var scope = new AssertionScope();
         _emailTask.Status.Should().Be("Sent");
         await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m =>
-            m.SenderEmail == _emailTask.From &&
+            m!.SenderEmail == _emailTask.From &&
             m.SenderName == _emailTask.FromName &&
             m.Recipients.Contains(_emailTask.Recipients[0]) &&
             m.CopyRecipients.Contains(_emailTask.CopyRecipients![0]) &&
             m.Subject == _emailTask.Subject &&
             m.TextBody == _emailTask.Body &&
             m.HtmlBody == null));
+#pragma warning disable CA1873
         _logger.Received(2).Log(LogLevel.Information, Arg.Any<EventId>(), Arg.Any<VersionedLogState>(), null,
             Arg.Any<Func<VersionedLogState, Exception?, string>>());
+#pragma warning restore CA1873
     }
 
     [Test]
@@ -186,7 +188,7 @@ public class EmailProcessorServiceTests
         await _sut.ProcessEmailAsync(emailTask);
 
         // Assert
-        await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m => m.SenderName == null));
+        await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m => m!.SenderName == null));
     }
 
     [Test]
@@ -204,6 +206,6 @@ public class EmailProcessorServiceTests
         await _sut.ProcessEmailAsync(emailTask);
 
         // Assert
-        await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m => m.SenderName == string.Empty));
+        await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m => m!.SenderName == string.Empty));
     }
 }
