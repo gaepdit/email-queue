@@ -11,6 +11,7 @@ using ZLogger.LogStates;
 
 namespace EmailQueue.API.Tests;
 
+#pragma warning disable CA1873
 [TestFixture]
 public class EmailProcessorServiceTests
 {
@@ -167,10 +168,8 @@ public class EmailProcessorServiceTests
             m.Subject == _emailTask.Subject &&
             m.TextBody == _emailTask.Body &&
             m.HtmlBody == null));
-#pragma warning disable CA1873
         _logger.Received(2).Log(LogLevel.Information, Arg.Any<EventId>(), Arg.Any<VersionedLogState>(), null,
             Arg.Any<Func<VersionedLogState, Exception?, string>>());
-#pragma warning restore CA1873
     }
 
     [Test]
@@ -209,3 +208,4 @@ public class EmailProcessorServiceTests
         await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m => m!.SenderName == string.Empty));
     }
 }
+#pragma warning restore CA1873
