@@ -161,7 +161,7 @@ public class EmailProcessorServiceTests
         using var scope = new AssertionScope();
         _emailTask.Status.Should().Be("Sent");
         await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m =>
-            m!.SenderEmail == _emailTask.From &&
+            m.SenderEmail == _emailTask.From &&
             m.SenderName == _emailTask.FromName &&
             m.Recipients.Contains(_emailTask.Recipients[0]) &&
             m.CopyRecipients.Contains(_emailTask.CopyRecipients![0]) &&
@@ -187,7 +187,7 @@ public class EmailProcessorServiceTests
         await _sut.ProcessEmailAsync(emailTask);
 
         // Assert
-        await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m => m!.SenderName == null));
+        await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m => m.SenderName == null));
     }
 
     [Test]
@@ -205,7 +205,7 @@ public class EmailProcessorServiceTests
         await _sut.ProcessEmailAsync(emailTask);
 
         // Assert
-        await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m => m!.SenderName == string.Empty));
+        await _emailService.Received(1).SendEmailAsync(Arg.Is<Message>(m => m.SenderName == string.Empty));
     }
 }
 #pragma warning restore CA1873
