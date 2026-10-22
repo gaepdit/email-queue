@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" />
         <PackageReference Include="GaEpd.EmailService" />
         <PackageReference Include="JetBrains.Annotations" />
         <PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" />
@@ -16,7 +17,7 @@
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
         <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" />
-        <PackageReference Include="ZLogger"/>
+        <PackageReference Include="ZLogger" />
     </ItemGroup>
 
     <ItemGroup>
