@@ -6,7 +6,7 @@ internal static class DatabaseExtensions
 {
     public static void ConfigureDatabase(this WebApplicationBuilder builder)
     {
-        if (builder.Environment.IsProduction())
+        if (builder.Configuration.GetValue<bool>("UseSqlServer"))
         {
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
