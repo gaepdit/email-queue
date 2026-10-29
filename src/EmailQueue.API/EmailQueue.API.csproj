@@ -25,7 +25,6 @@
 
     <ItemGroup>
         <Content Update="appsettings.Development.json">
-            <DependentUpon>appsettings.json</DependentUpon>
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </Content>
         <None Update="Properties\PublishProfiles\*.pubxml">
