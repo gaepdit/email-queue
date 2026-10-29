@@ -15,7 +15,7 @@ internal static class DatabaseExtensions
         else
         {
             builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnection")));
         }
     }
 
