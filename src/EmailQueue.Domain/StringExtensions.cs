@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace EmailQueue.API.Platform;
+namespace EmailQueue.Domain;
 
 public static class StringExtensions
 {

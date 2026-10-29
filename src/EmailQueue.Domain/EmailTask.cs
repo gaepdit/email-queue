@@ -1,6 +1,7 @@
-using EmailQueue.API.Platform;
+using JetBrains.Annotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace EmailQueue.API.Models;
+namespace EmailQueue.Domain;
 
 public record EmailTask : NewEmailTask
 {

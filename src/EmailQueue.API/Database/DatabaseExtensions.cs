@@ -10,12 +10,13 @@ internal static class DatabaseExtensions
         {
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection"),
-                    opts => opts.EnableRetryOnFailure()));
+                    opts => opts.MigrationsAssembly("EmailQueue.SqlServerMigrations")));
         }
         else
         {
             builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnection")));
+                options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnection"),
+                    opts => opts.MigrationsAssembly("EmailQueue.SqliteMigrations")));
         }
     }
 
