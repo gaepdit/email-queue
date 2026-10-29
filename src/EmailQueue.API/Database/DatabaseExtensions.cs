@@ -9,7 +9,7 @@ internal static class DatabaseExtensions
         if (builder.Configuration.GetValue<bool>("UseSqlServer"))
         {
             builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+                options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection"),
                     opts => opts.EnableRetryOnFailure()));
         }
         else
