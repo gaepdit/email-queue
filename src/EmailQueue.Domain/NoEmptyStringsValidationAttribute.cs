@@ -1,4 +1,6 @@
-namespace EmailQueue.API.Platform;
+using System.ComponentModel.DataAnnotations;
+
+namespace EmailQueue.Domain;
 
 [AttributeUsage(AttributeTargets.Property)]
 public class NoEmptyStringsAttribute : ValidationAttribute

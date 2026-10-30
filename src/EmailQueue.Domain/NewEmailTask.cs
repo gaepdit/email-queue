@@ -1,7 +1,7 @@
-using EmailQueue.API.Platform;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace EmailQueue.API.Models;
+namespace EmailQueue.Domain;
 
 public record NewEmailTask
 {

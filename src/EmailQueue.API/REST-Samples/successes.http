@@ -2,8 +2,8 @@
 # See https://www.jetbrains.com/help/rider/Http_client_in__product__code_editor.html
 
 @HostAddress = https://localhost:7145
-@ClientId = 00000000-0000-0000-0000-000000000000
-@ApiKey = client-api-key-1
+@ClientId = 00000000-0000-0000-0000-100000000000
+@ApiKey = localhost-api-key-1
 
 // =====================
 // == SUCCESS TESTING == 

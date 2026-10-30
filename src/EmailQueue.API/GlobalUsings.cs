@@ -1,3 +1,3 @@
-﻿global using JetBrains.Annotations;
-global using System.ComponentModel.DataAnnotations;
+﻿global using EmailQueue.Domain;
+global using JetBrains.Annotations;
 global using ZLogger;

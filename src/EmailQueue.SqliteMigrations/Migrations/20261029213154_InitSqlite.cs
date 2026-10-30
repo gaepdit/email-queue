@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace EmailQueue.API.Database.Migrations
+namespace EmailQueue.SqliteMigrations.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitSqlite : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,6 +21,7 @@ namespace EmailQueue.API.Database.Migrations
                     ClientName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
                     ClientId = table.Column<Guid>(type: "TEXT", nullable: false),
                     Status = table.Column<string>(type: "TEXT", maxLength: 15, nullable: false),
+                    FailureReason = table.Column<string>(type: "TEXT", maxLength: 200, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     AttemptedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
                     From = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
