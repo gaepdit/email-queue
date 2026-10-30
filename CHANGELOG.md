@@ -1,5 +1,9 @@
 # Changelog
 
+## [2026.10.30] - 2026-10-30
+
+- Added SQL Server as an optional database provider.
+
 ## [2026.10.20] - 2026-10-20
 
 - Updated dependencies.
@@ -62,3 +66,4 @@ First production version.
 [2026.7.21]: https://github.com/gaepdit/email-queue/releases/tag/v2026.7.21
 [2026.7.22]: https://github.com/gaepdit/email-queue/releases/tag/v2026.7.22
 [2026.10.20]: https://github.com/gaepdit/email-queue/releases/tag/v2026.10.20
+[2026.10.30]: https://github.com/gaepdit/email-queue/releases/tag/v2026.10.30
